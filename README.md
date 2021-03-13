@@ -1,2 +1,2 @@
 # portfolio-flask
-An Artist Portfolio
+an artist portfolio

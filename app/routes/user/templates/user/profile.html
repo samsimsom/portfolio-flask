@@ -1,0 +1,17 @@
+
+
+{% extends 'base.html' %}
+
+{% block navbar %}
+{{ super() }}
+{% endblock navbar %}
+
+{% block app_content %}
+<h1>User Profile Page /profie</h1>
+<h1>Welcome {{ session['user']['username'] }}!</h1>
+<ul>
+  <li>username: {{ session['user']['username'] }}</li>
+  <li>slug: {{ session['user']['slug'] }}</li>
+  <li>email: {{ session['user']['email'] }}</li>
+</ul>  
+{% endblock app_content %}
