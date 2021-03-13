@@ -6,7 +6,8 @@ from wtforms import (StringField,
                      PasswordField,
                      BooleanField,
                      SubmitField,
-                     TextAreaField)
+                     TextAreaField,
+                     MultipleFileField)
 from wtforms.validators import (ValidationError,
                                 DataRequired,
                                 Email,
@@ -57,10 +58,10 @@ class RegistrationForm(FlaskForm):
 
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
-    upload = FileField('File',
-                       validators=[FileRequired(),
-                                   FileAllowed(['jpg', 'png'],
-                                               'Images only!')])
+    upload = MultipleFileField('File',
+                               validators=[FileRequired(),
+                                           FileAllowed(['jpg', 'png'],
+                                                       'Images only!')])
     description = TextAreaField('Description',
                                 validators=[Optional(), Length(max=1024)],
                                 render_kw={'style': 'height: 100px'})

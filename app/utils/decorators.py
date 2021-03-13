@@ -9,7 +9,7 @@ from app.models.user import Role
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if g.user['role']['name'] is 'ANONYMOUS':
+        if g.user['role']['name'] == 'ANONYMOUS':
             return redirect(url_for('auth.login', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
@@ -19,7 +19,7 @@ def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
 
-        if g.user['role']['name'] is 'ANONYMOUS':
+        if g.user['role']['name'] == 'ANONYMOUS':
             return redirect(url_for('main.index'))
 
         if 'user' in session:
