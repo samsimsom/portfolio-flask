@@ -14,7 +14,8 @@ def create_app():
     db.init_app(app)
 
     # Blueprint Registration
-    from app.routes import (main, auth, admin, user, about, contact, error)
+    from app.routes import (main, auth, admin, user,
+                            about, contact, error, post)
 
     app.register_blueprint(main)
     app.register_blueprint(auth)
@@ -23,6 +24,7 @@ def create_app():
     app.register_blueprint(about)
     app.register_blueprint(contact)
     app.register_blueprint(error)
+    app.register_blueprint(post)
 
     return app
 

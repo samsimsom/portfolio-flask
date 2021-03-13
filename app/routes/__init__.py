@@ -7,3 +7,5 @@ from app.routes.user import user
 from app.routes.about import about
 from app.routes.contact import contact
 from app.routes.error import error
+
+from app.routes.admin.post import post
