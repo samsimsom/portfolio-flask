@@ -8,10 +8,10 @@
 
 {% block app_content %}
 <h1>User Profile Page /profie</h1>
-<h1>Welcome {{ session['user']['username'] }}!</h1>
+<h1>Welcome {{ g.user['username'] }}!</h1>
 <ul>
-  <li>username: {{ session['user']['username'] }}</li>
-  <li>slug: {{ session['user']['slug'] }}</li>
-  <li>email: {{ session['user']['email'] }}</li>
+  <li>username: {{ g.user['username'] }}</li>
+  <li>slug: {{ g.user['slug'] }}</li>
+  <li>email: {{ g.user['email'] }}</li>
 </ul>  
 {% endblock app_content %}

@@ -15,6 +15,7 @@ def before_app_request():
     g.user = None
     if 'user' in session:
         g.user = session['user']
+        print(g.user)
 
 
 @auth.route('/login', methods=['GET', 'POST'])

@@ -4,6 +4,11 @@ from flask import render_template
 from app.routes.error import error
 
 
+@error.app_errorhandler(403)
+def not_found_error(err):
+    return render_template('error/403.html'), 403
+
+
 @error.app_errorhandler(404)
 def not_found_error(err):
     return render_template('error/404.html'), 404

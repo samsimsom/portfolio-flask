@@ -25,7 +25,7 @@
            href="{{ url_for('about.index') }}">About</a>
         </li>
 
-        {% if session['user'] %}
+        {% if g.user %}
         <!-- Dropdown User -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
