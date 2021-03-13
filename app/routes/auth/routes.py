@@ -36,7 +36,8 @@ def login():
         # User Login and Remeber_Me
         session['user'] = {'username': user.username,
                            'slug': user.slug,
-                           'email': user.email}
+                           'email': user.email,
+                           'role': user.role}
         if form.remember_me.data:
             session.permanent = True
         else:
