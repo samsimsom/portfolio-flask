@@ -19,12 +19,12 @@ def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
 
-        if g.user is None:
+        if g.user['role'] is 'anonim':
             return redirect(url_for('main.index'))
 
         if 'user' in session:
-            if not (g.user['role'] == Role.objects.get(
-                    id='604b33ba15fc7533e3383861')):
+            role = Role.objects.get(id='604b33ba15fc7533e3383861')
+            if not (g.user['role'].id == role.id):
                 return abort(403)
 
         return f(*args, **kwargs)

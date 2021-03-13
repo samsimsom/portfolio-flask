@@ -15,7 +15,24 @@ def before_app_request():
     g.user = None
     if 'user' in session:
         g.user = session['user']
-        print(g.user)
+    else:
+        g.user = {'username': 'anonim',
+                  'slug': 'anonim',
+                  'email': 'anonim',
+                  'role': 'anonim'}
+
+
+@auth.app_context_processor
+def get_current_user():
+    return dict(current_user=g.user)
+
+
+@auth.app_context_processor
+def db_utilitys():
+    def get_user_role(id):
+        role = Role.objects.get(id=id)
+        return role.name
+    return dict(role=get_user_role)
 
 
 @auth.route('/login', methods=['GET', 'POST'])

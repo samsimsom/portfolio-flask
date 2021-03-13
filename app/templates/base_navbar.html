@@ -24,22 +24,39 @@
           <a class="nav-link {% if request.url_rule.endpoint == 'about.index' %}active{% endif %}"
            href="{{ url_for('about.index') }}">About</a>
         </li>
-
-        {% if g.user %}
+        {% if current_user['role'].name == role('604b33c1337f0cdd73f39995') %}
         <!-- Dropdown User -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
           role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ session['user']['username']|capitalize }}
+            {{ g.user['username']|capitalize }}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" 
-                   href="{{ url_for('user.profile', slug=session['user']['slug']) }}">Profile</a></li>
+                   href="{{ url_for('user.profile', slug=g.user['slug']) }}">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
           </ul>
         </li>
         <!-- Dropdown User /-->
+        {% elif current_user['role'].name == role('604b33ba15fc7533e3383861') %}
+        <!-- Dropdown Admin -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
+          role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ g.user['username']|capitalize }} | {{ g.user['role'].name }}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" 
+                   href="{{ url_for('admin.index') }}">Dashboard</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" 
+                   href="{{ url_for('user.profile', slug=g.user['slug']) }}">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
+          </ul>
+        </li>
+        <!-- Dropdown Admin /-->
         {% else %}
         <!-- Dropdown Anonymous -->
         <li class="nav-item dropdown">
