@@ -10,9 +10,9 @@ from app.utils.decorators import login_required
 @login_required
 def profile(slug):
 
-    user = User.objects.get_or_404(email=g.user['email'])
+    user = User.objects.get_or_404(slug=slug)
 
-    if user.slug == g.user['slug']:
-        return abort(404)
+    if user.username == g.user['username']:
+        pass
 
     return render_template('user/profile.html', user=user)

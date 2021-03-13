@@ -30,8 +30,8 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
     def validate_username(self, username):
-        if not re.match("^[a-zA-Z\s]*$", username.data):
-            raise ValidationError('[a-z A-Z and space]')
+        if not re.match("^[a-zA-Z]*$", username.data):
+            raise ValidationError('[a-z A-Z]')
 
         try:
             user = User.objects.get(username=username.data)

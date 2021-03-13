@@ -8,10 +8,15 @@
 
 {% block app_content %}
 <h1>User Profile Page /profie</h1>
-<h1>Welcome {{ g.user['username'] }}!</h1>
+<h1>{{ user['username'] }}!</h1>
 <ul>
-  <li>username: {{ g.user['username'] }}</li>
-  <li>slug: {{ g.user['slug'] }}</li>
-  <li>email: {{ g.user['email'] }}</li>
-</ul>  
+  <li>username: {{ user['username'] }}</li>
+  <li>slug: {{ user['slug'] }}</li>
+  <li>email: {{ user['email'] }}</li>
+</ul>
+
+{% if user.username == current_user['username'] %}
+  <a href="#">[Edit Profile]</a>
+{% endif %}
+
 {% endblock app_content %}

@@ -40,7 +40,8 @@ class User(db.Document):
         self.slug = slugify(username)
 
     def set_username(self, username):
-        self.username = ' '.join(str(username).split()).lower()
+        # self.username = ' '.join(str(username).split()).lower()
+        self.username = (str(username).replace(' ', '')).lower()
 
     def set_email(self, email):
         self.email = str(email).lower()
