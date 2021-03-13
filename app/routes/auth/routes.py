@@ -10,31 +10,6 @@ from app.models.user import User, Role
 from app.utils.decorators import login_required
 
 
-@auth.before_app_request
-def before_app_request():
-    g.user = None
-    if 'user' in session:
-        g.user = session['user']
-    else:
-        g.user = {'username': 'anonim',
-                  'slug': 'anonim',
-                  'email': 'anonim',
-                  'role': 'anonim'}
-
-
-@auth.app_context_processor
-def get_current_user():
-    return dict(current_user=g.user)
-
-
-@auth.app_context_processor
-def db_utilitys():
-    def get_user_role(id):
-        role = Role.objects.get(id=id)
-        return role.name
-    return dict(role=get_user_role)
-
-
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
 
@@ -85,7 +60,7 @@ def register():
         user.set_email(form.email.data)
         user.set_password(form.password.data)
         user.set_slug(user.username)
-        user.role = Role.objects.get(id='604b33c1337f0cdd73f39995')  # FIXME:
+        user.role = Role.objects.filter(name='USER').first()
         user.save()
 
         flash('Congratulations, you are now a registered user!')

@@ -24,7 +24,7 @@
           <a class="nav-link {% if request.url_rule.endpoint == 'about.index' %}active{% endif %}"
            href="{{ url_for('about.index') }}">About</a>
         </li>
-        {% if current_user['role'].name == role('604b33c1337f0cdd73f39995') %}
+        {% if current_user['role'].name == role('USER') %}
         <!-- Dropdown User -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
@@ -39,7 +39,7 @@
           </ul>
         </li>
         <!-- Dropdown User /-->
-        {% elif current_user['role'].name == role('604b33ba15fc7533e3383861') %}
+        {% elif current_user['role'].name == role('ADMIN') %}
         <!-- Dropdown Admin -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
