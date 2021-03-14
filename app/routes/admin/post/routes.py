@@ -9,8 +9,8 @@ from app.forms.form import PostForm
 
 
 @post.route('/')
+@admin_required
 def index():
-
     return render_template('post/index.html')
 
 

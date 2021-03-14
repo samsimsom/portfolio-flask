@@ -60,13 +60,12 @@ class RegistrationForm(FlaskForm):
 
 
 # ------------------------------------------------------------------------------
-# POST FROMS
+# POST FROM
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
 
-    description = TextAreaField(
-        'Description',
-        validators=[Optional(), Length(max=1024)])
+    description = TextAreaField('Description',
+                                validators=[Length(max=1024)])
 
     category = SelectField('Category',
                            choices=[(1, "Group1"), (2, "Group2")],
@@ -83,3 +82,14 @@ class PostForm(FlaskForm):
                     FileAllowed(['jpg', 'png'], 'Images only!')])
 
     submit = SubmitField('New Post')
+
+
+# ------------------------------------------------------------------------------
+# CATEGORY FROM
+class CategoryForm(FlaskForm):
+    name = StringField('Title', validators=[DataRequired()])
+
+    description = TextAreaField('Description',
+                                validators=[Length(max=1024)])
+
+    submit = SubmitField('New Category')

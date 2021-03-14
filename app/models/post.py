@@ -20,8 +20,8 @@ class Category(db.Document):
     def __repr__(self):
         return f'<Category | Name: {self.name} Slug: {self.slug}>'
 
-    def set_slug(self, name):
-        return slugify(name)
+    def set_slug(self, username):
+        self.slug = slugify(username)
 
 
 # ------------------------------------------------------------------------------

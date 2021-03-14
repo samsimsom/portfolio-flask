@@ -9,3 +9,4 @@ from app.routes.contact import contact
 from app.routes.error import error
 
 from app.routes.admin.post import post
+from app.routes.admin.category import category
