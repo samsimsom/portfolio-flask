@@ -27,7 +27,8 @@ def login():
             return redirect(url_for('auth.login'))
 
         # User Login and Remeber_Me
-        session['user'] = {'username': user.username,
+        session['user'] = {'id': user.id,
+                           'username': user.username,
                            'slug': user.slug,
                            'email': user.email,
                            'role': user.role}

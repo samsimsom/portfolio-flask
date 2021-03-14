@@ -55,11 +55,11 @@ class Post(db.Document):
     creation_date = db.DateTimeField(default=datetime.utcnow())
     weight = db.IntField(min_value=0, default=0)
     slug = db.StringField(max_length=128)
+    category = db.ReferenceField(Category)
 
     title = db.StringField(max_length=128, required=True)
     description = db.StringField(max_length=1024, required=True)
 
-    category = db.ReferenceField(Category)
     featured_image = db.ReferenceField(FeaturedImage)
     detail_images = db.ReferenceField(DetailImages)
 
@@ -70,4 +70,10 @@ class Post(db.Document):
                  Slug: {self.slug}>'
 
     def set_slug(self, title):
-        return slugify(title)
+        self.slug = slugify(title)
+
+    def set_category(self, id):
+        self.category = Category.objects.filter(id=id).first()
+
+    def set_author(self, id):
+        self.author = User.objects.filter(id=id).first()

@@ -11,13 +11,16 @@ app = create_app()
 cmds.register(app)
 
 # ------------------------------------------------------------------------------
+
+
 @app.before_request
 def before_app_request():
     g.user = None
     if 'user' in session:
         g.user = session['user']
     else:
-        g.user = {'username': 'anonymous',
+        g.user = {'id': 'anonymous',
+                  'username': 'anonymous',
                   'slug': 'anonymous',
                   'email': 'anonymous',
                   'role': {'name': 'ANONYMOUS'}}

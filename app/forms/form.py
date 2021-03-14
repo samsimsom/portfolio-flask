@@ -68,18 +68,16 @@ class PostForm(FlaskForm):
                                 validators=[Length(max=1024)])
 
     category = SelectField('Category',
-                           choices=[(1, "Group1"), (2, "Group2")],
+                           choices=[],
                            validators=[DataRequired()])
 
     featured_image = FileField(
         'Featureed Image',
-        validators=[FileRequired(),
-                    FileAllowed(['jpg', 'png'], 'Images only!')])
+        validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
 
     detail_images = MultipleFileField(
         'Detail Images',
-        validators=[FileRequired(),
-                    FileAllowed(['jpg', 'png'], 'Images only!')])
+        validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
 
     submit = SubmitField('New Post')
 
