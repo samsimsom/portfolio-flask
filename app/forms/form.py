@@ -72,7 +72,7 @@ class PostForm(FlaskForm):
                            validators=[DataRequired()])
 
     featured_image = FileField(
-        'Featureed Image',
+        'Featured Image',
         validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
 
     detail_images = MultipleFileField(
