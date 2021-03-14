@@ -7,7 +7,8 @@ from wtforms import (StringField,
                      BooleanField,
                      SubmitField,
                      TextAreaField,
-                     MultipleFileField)
+                     MultipleFileField,
+                     SelectField)
 from wtforms.validators import (ValidationError,
                                 DataRequired,
                                 Email,
@@ -18,6 +19,8 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from app.models.user import User
 
 
+# ------------------------------------------------------------------------------
+# AUTH FROMS
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -56,13 +59,27 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Please use a different email address.')
 
 
+# ------------------------------------------------------------------------------
+# POST FROMS
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
-    upload = MultipleFileField('File',
-                               validators=[FileRequired(),
-                                           FileAllowed(['jpg', 'png'],
-                                                       'Images only!')])
-    description = TextAreaField('Description',
-                                validators=[Optional(), Length(max=1024)],
-                                render_kw={'style': 'height: 100px'})
+
+    description = TextAreaField(
+        'Description',
+        validators=[Optional(), Length(max=1024)])
+
+    category = SelectField('Category',
+                           choices=[(1, "Group1"), (2, "Group2")],
+                           validators=[DataRequired()])
+
+    featured_image = FileField(
+        'Featureed Image',
+        validators=[FileRequired(),
+                    FileAllowed(['jpg', 'png'], 'Images only!')])
+
+    detail_images = MultipleFileField(
+        'Detail Images',
+        validators=[FileRequired(),
+                    FileAllowed(['jpg', 'png'], 'Images only!')])
+
     submit = SubmitField('New Post')

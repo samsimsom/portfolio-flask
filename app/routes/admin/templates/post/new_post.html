@@ -22,13 +22,24 @@
 </div>
 
 <div class="form-floating mb-3">
-{{ form.description(class_="form-control", id="fTextArea-1", **{'style':'height: 100px'}) }}
+{{ form.description(class_="form-control", id="fTextArea-1", 
+                    **{'style':'height: 150px'}) }}
 {{ form.description.label(for="fTextArea-1") }}
 </div>
 
 <div class="input-group mb-3">
-{{ form.upload(class_="form-control", id="fUplod-1") }}
-{{ form.upload.label(class_="input-group-text", for="fUplod-1") }}
+{{ form.category.label(class_="input-group-text", for="fSelect-1") }}
+{{ form.category(class_="form-select", id="fSelect-1") }}
+</div>
+
+<div class="input-group mb-3">
+{{ form.featured_image.label(class_="input-group-text", for="fUplod-1") }}
+{{ form.featured_image(class_="form-control", id="fUplod-1") }}
+</div>
+
+<div class="input-group mb-3">
+{{ form.detail_images.label(class_="input-group-text", for="fUplod-2") }}
+{{ form.detail_images(class_="form-control", id="fUplod-2") }}
 </div>
 
 <div class="d-grid gap-2">
