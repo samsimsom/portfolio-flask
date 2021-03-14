@@ -44,14 +44,16 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
           role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ g.user['username']|capitalize }} | {{ g.user['role'].name }}
+            {{ g.user['username']|capitalize }}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" 
-                   href="{{ url_for('admin.index') }}">Dashboard</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('user.profile', slug=g.user['slug']) }}">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" 
-                   href="{{ url_for('user.profile', slug=g.user['slug']) }}">Profile</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('admin.index') }}">Dashboard</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('post.new_post') }}">Post</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('category.new_category') }}">Category</a></li>
+            <li><a class="dropdown-item" href="#">Comment</a></li>
+            <li><a class="dropdown-item" href="#">User</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
           </ul>

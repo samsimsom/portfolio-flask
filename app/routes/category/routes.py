@@ -1,9 +1,14 @@
 
 
-from flask import (render_template, redirect, url_for, flash,
-                   request, session, g)
+from flask import (render_template,
+                   redirect,
+                   url_for,
+                   flash,
+                   request,
+                   session,
+                   g)
 
-from app.routes.admin.category import category    # Blueprint
+from app.routes.category import category    # Blueprint
 from app.utils.decorators import admin_required
 
 from app.forms.form import CategoryForm
@@ -11,7 +16,6 @@ from app.models.post import Category
 
 
 @category.route('/')
-@admin_required
 def index():
     return render_template('category/index.html')
 

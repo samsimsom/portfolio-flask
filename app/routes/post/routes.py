@@ -1,18 +1,22 @@
 
 
-from flask import (render_template, redirect, url_for, flash,
-                   request, session, g)
+from flask import (render_template,
+                   redirect, url_for,
+                   flash,
+                   request,
+                   session,
+                   g)
 
-from app.routes.admin.post import post    # Blueprint
+from app.routes.post import post    # Blueprint
 from app.utils.decorators import admin_required
 
 from app.forms.form import PostForm
+
 from app.models.post import Category
 from app.models.post import Post
 
 
 @post.route('/')
-@admin_required
 def index():
     return render_template('post/index.html')
 
