@@ -10,9 +10,8 @@ from app.models.post import Post
 app = create_app()
 cmds.register(app)
 
+
 # ------------------------------------------------------------------------------
-
-
 @app.before_request
 def before_app_request():
     g.user = None
