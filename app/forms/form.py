@@ -17,6 +17,7 @@ from wtforms.validators import (ValidationError,
                                 Length)
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from app.models.user import User
+from app.models.post import Category
 
 
 # ------------------------------------------------------------------------------
@@ -91,3 +92,12 @@ class CategoryForm(FlaskForm):
                                 validators=[Length(max=1024)])
 
     submit = SubmitField('New Category')
+
+    def validate_name(self, name):
+        try:
+            category = Category.objects.get(name=name.data)
+        except Category.DoesNotExist:
+            category = None
+
+        if category is not None:
+            raise ValidationError('Please use a different category name.')

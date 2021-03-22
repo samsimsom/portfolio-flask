@@ -25,7 +25,6 @@ def index():
 def new_category():
 
     form = CategoryForm()
-
     if form.validate_on_submit() and request.method == 'POST':
 
         category = Category()
@@ -37,8 +36,7 @@ def new_category():
         flash('Category Form Works well!')
         return redirect(url_for('category.new_category'))
 
-    if request.method == 'GET':
-        categories = Category.objects.all()
+    categories = Category.objects.all()
 
     return render_template('category/new_category.html',
                            form=form,
