@@ -32,3 +32,10 @@ def create_app():
 
 if __name__ == '__main__':
     create_app().run()
+
+
+# FIXME: Kullanici login sistemi ile ilgili onemli bir problem var,
+# hizlica kontrol ettimgimde ne oldugunu anlayamadim,
+# {% if current_user['role'].name == role('USER') %}
+# role ile ilgili bir hata aliyorum, Database i degistirdim, buyuk ihtimal session
+# problemi olabilir, bu konuya dondugunde ilgilenirsin.
