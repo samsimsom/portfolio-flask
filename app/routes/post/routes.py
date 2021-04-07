@@ -13,7 +13,7 @@ from flask import (render_template,
                    g)
 from werkzeug.utils import secure_filename
 
-from app.routes.post import post    # Blueprint
+from app.routes.post import post
 from config import Config
 from app.utils.decorators import admin_required
 

@@ -2,7 +2,6 @@
 
 from datetime import datetime
 from slugify import slugify
-from hashlib import md5
 from werkzeug.security import (generate_password_hash,
                                check_password_hash)
 from app.exts.database import db
@@ -10,7 +9,7 @@ from app.exts.database import db
 
 class Role(db.Document):
     name = db.StringField(max_length=64, required=True, unique=True)
-    description = db.StringField()
+    description = db.StringField(max_length=128)
 
     meta = {'collection': 'role'}
 
