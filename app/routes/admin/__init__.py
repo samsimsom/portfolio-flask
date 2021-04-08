@@ -1,8 +1,11 @@
 
-
 from flask import Blueprint
 
-admin = Blueprint('admin', __name__, template_folder='templates',
-                  url_prefix='/admin')
+admin_post = Blueprint('admin_post', __name__, template_folder='templates',
+                       url_prefix='/admin/post')
 
-from app.routes.admin import routes
+admin_main = Blueprint('admin_main', __name__, template_folder='templates',
+                       url_prefix='/admin')
+
+from app.routes.admin.main import routes
+from app.routes.admin.post import routes
