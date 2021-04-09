@@ -50,6 +50,7 @@
 <thead>
 <tr>
 <th scope="col">#</th>
+<th scope="col">id</th>
 <th scope="col">Name</th>
 <th scope="col">Description</th>
 <th scope="col">Slug</th>
@@ -58,7 +59,7 @@
 </thead>
 <tbody id="category-list">
 
-
+{#
 {% for category in categories %}
 <tr>
 <th scope="row">{{ loop.index }}</th>
@@ -73,7 +74,7 @@
 </td>
 </tr>
 {% endfor %} 
-
+#}
 
 </tbody>
 </table>

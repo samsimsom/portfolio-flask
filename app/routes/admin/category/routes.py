@@ -6,9 +6,7 @@ from flask import (render_template,
                    flash,
                    make_response,
                    jsonify,
-                   request,
-                   session,
-                   g)
+                   request)
 
 from app.routes.admin.category import admin_category
 from app.utils.decorators import admin_required
@@ -20,16 +18,6 @@ from app.models.post import Category
 @admin_category.route('/')
 def index():
     return render_template('admin/category/index.html')
-
-
-@admin_category.route('/get_category', methods=['GET'])
-# @admin_required
-def get_category():
-
-    categories = Category.objects.all()
-
-    return make_response(jsonify(categories))
-    # return jsonify(categories)
 
 
 @admin_category.route('/new_category', methods=['GET', 'POST'])
@@ -53,3 +41,24 @@ def new_category():
     return render_template('admin/category/new_category.html',
                            form=form,
                            categories=categories)
+
+
+@admin_category.route('/get_category', methods=['GET'])
+@admin_required
+def get_category():
+    categories = Category.objects.all()
+    return make_response(jsonify(categories))
+
+
+@admin_category.route('/edit_category/<id>', methods=['POST'])
+@admin_required
+def edit_category():
+    categories = Category.objects.all()
+    return make_response(jsonify(categories))
+
+
+@admin_category.route('/delete_category/<id>', methods=['POST'])
+@admin_required
+def delete_category():
+    categories = Category.objects.all()
+    return make_response(jsonify(categories))
