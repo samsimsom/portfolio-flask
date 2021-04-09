@@ -4,6 +4,8 @@ from flask import (render_template,
                    redirect,
                    url_for,
                    flash,
+                   make_response,
+                   jsonify,
                    request,
                    session,
                    g)
@@ -18,6 +20,16 @@ from app.models.post import Category
 @admin_category.route('/')
 def index():
     return render_template('admin/category/index.html')
+
+
+@admin_category.route('/get_category', methods=['GET'])
+# @admin_required
+def get_category():
+
+    categories = Category.objects.all()
+
+    return make_response(jsonify(categories))
+    # return jsonify(categories)
 
 
 @admin_category.route('/new_category', methods=['GET', 'POST'])

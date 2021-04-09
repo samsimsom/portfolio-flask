@@ -7,7 +7,7 @@
 {% endblock navbar %}
 
 {% block app_content %}
-
+<div class="container" id="category-container">
 <div class="w-100 p-3">
 <h1>New Category</h1>
 </div>
@@ -56,7 +56,9 @@
 <th scope="col">Edit/Delete</th>
 </tr>
 </thead>
-<tbody>
+<tbody id="category-list">
+
+
 {% for category in categories %}
 <tr>
 <th scope="row">{{ loop.index }}</th>
@@ -70,10 +72,15 @@
 </div>
 </td>
 </tr>
-{% endfor %}
+{% endfor %} 
+
 
 </tbody>
 </table>
-
+</div>
 
 {% endblock app_content %}
+
+{% block script_lower %}
+<script src="{{ url_for('static', filename='js/admin/category/app.js') }}"></script>
+{% endblock script_lower %}

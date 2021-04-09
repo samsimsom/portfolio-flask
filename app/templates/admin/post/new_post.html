@@ -1,6 +1,6 @@
 
 
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 
 
 
@@ -43,7 +43,7 @@ Upload Files
 <div class="col-sm-6">
 <div class="card h-100" id="drag-drop-area">
 
-    <form action="{{ url_for('post.upload_files') }}" class="dropzone" id="upload-dropzone">
+    <form action="{{ url_for('admin_post.upload_files') }}" class="dropzone" id="upload-dropzone">
     </form>
 
 </div>
@@ -84,7 +84,7 @@ Simply drag & drop your model folder on this page to upload.
 
 <div class="w-100 p-3">
 <div class="shadow-lg p-3 mb-1 bg-body rounded-3 border border-1">
-<form action="" method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data">
 {{ form.hidden_tag() }}
 
 <div>
