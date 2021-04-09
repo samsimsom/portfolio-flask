@@ -1,0 +1,12 @@
+
+
+{% extends 'base/base.html' %}
+
+{% block navbar %}
+{{ super() }}
+{% endblock navbar %}
+
+{% block app_content %}
+<h1>Post Index</h1>
+{{ files }}
+{% endblock app_content %}

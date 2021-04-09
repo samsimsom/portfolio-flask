@@ -1,0 +1,19 @@
+
+
+{% extends 'base/base.html' %}
+
+{% block navbar %}
+{{ super() }}
+{% endblock navbar %}
+
+{% block app_content %}
+<h1>Post Index</h1>
+<h1>Current user in g:</h1>
+<ul>
+  <li>username: {{ g.user['username'] }}</li>
+  <li>slug: {{ g.user['slug'] }}</li>
+  <li>email: {{ g.user['email'] }}</li>
+  <li>role: {{ g.user['role']['name'] }}</li>
+</ul>  
+{{ files }}
+{% endblock app_content %}

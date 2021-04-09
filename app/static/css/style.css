@@ -3,6 +3,10 @@
   max-width: 960px;
 }
 
+#register-container {
+  max-width: 640px;
+}
+
 /* Dropdown menu background color*/
 .navbar-nav > li > .dropdown-menu {
   background-color: #ffc107;

@@ -12,11 +12,11 @@ from flask import (render_template,
                    g)
 from werkzeug.utils import secure_filename
 
-from app.routes.admin import admin_post
+from app.routes.admin.post import admin_post
 from app.utils.decorators import admin_required
 
 
 @admin_post.route('/')
 @admin_required
 def index():
-    return render_template('post/index.html')
+    return render_template('admin/post/index.html')
