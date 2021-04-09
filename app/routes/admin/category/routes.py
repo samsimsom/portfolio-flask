@@ -23,24 +23,9 @@ def index():
 @admin_category.route('/new_category', methods=['GET', 'POST'])
 @admin_required
 def new_category():
-
     form = CategoryForm()
-    if form.validate_on_submit() and request.method == 'POST':
-
-        category = Category()
-        category.name = form.name.data
-        category.description = form.description.data
-        category.set_slug(form.name.data)
-        category.save()
-
-        flash('Category Form Works well!')
-        return redirect(url_for('admin_category.new_category'))
-
-    categories = Category.objects.all()
-
     return render_template('admin/category/new_category.html',
-                           form=form,
-                           categories=categories)
+                           form=form)
 
 
 @admin_category.route('/get_category', methods=['GET'])
@@ -50,15 +35,23 @@ def get_category():
     return make_response(jsonify(categories))
 
 
-@admin_category.route('/edit_category/<id>', methods=['POST'])
-@admin_required
-def edit_category():
-    categories = Category.objects.all()
-    return make_response(jsonify(categories))
+# @admin_category.route('/add_category', methods=['POST'])
+# @admin_required
+# def add_category():
+#     content = request.get_json(force=True)
+#     print(content)
+#     return make_response(jsonify({'Duz': 42}))
 
 
-@admin_category.route('/delete_category/<id>', methods=['POST'])
-@admin_required
-def delete_category():
-    categories = Category.objects.all()
-    return make_response(jsonify(categories))
+# @admin_category.route('/edit_category/<id>', methods=['POST'])
+# @admin_required
+# def edit_category():
+#     categories = Category.objects.all()
+#     return make_response(jsonify(categories))
+
+
+# @admin_category.route('/delete_category/<id>', methods=['POST'])
+# @admin_required
+# def delete_category():
+#     categories = Category.objects.all()
+#     return make_response(jsonify(categories))
