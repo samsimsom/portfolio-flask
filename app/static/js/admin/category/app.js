@@ -69,9 +69,22 @@ form.addEventListener("submit", (e) => {
   };
   let csrf_token = form.csrf_token.value;
 
-  formSubmit(entry, csrf_token)
-    .then((data) => console.log(data))
-    .catch((err) => console.log(err));
+  // formSubmit(entry, csrf_token)
+  //   .then((data) => console.log(data))
+  //   .catch((err) => console.log(err));
+
+  getCategoryAysnc(entry, csrf_token);
 
   clearFrom();
 });
+
+const getCategoryAysnc = async (entry, csrf_token) => {
+  await formSubmit(entry, csrf_token)
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+
+  categoryList.innerHTML = "";
+  await getCategories()
+    .then((data) => updateUI(data))
+    .catch((err) => console.log(err));
+};
