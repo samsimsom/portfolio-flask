@@ -1,6 +1,96 @@
 console.log("--- Category App ---");
 
-// UI Elements
+const form = document.getElementById("category-form");
+const categoryList = document.getElementById("category-list");
+
+async function formPost() {
+  let entry = {
+    name: form.name.value,
+    description: form.description.value,
+  };
+
+  const url = `${window.origin}/admin/category/add_category`;
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": form.csrf_token.value,
+    },
+    body: JSON.stringify(entry),
+  };
+
+  const responce = await fetch(url, options);
+  const data = await responce.json();
+
+  return data;
+}
+
+async function getCategories() {
+  const url = `${window.origin}/admin/category/get_category`;
+  const options = { method: "GET" };
+  const responce = await fetch(url, options);
+  const data = await responce.json();
+
+  return data;
+}
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  // formPost()
+  //   .then((data) => console.log(data))
+  //   .catch((err) => console.log(err));
+
+  // console.log(formPost());
+  // console.log(getCategories());
+
+  async function glue() {
+    const a = await formPost();
+    const b = await getCategories();
+    return { a, b };
+  }
+  glue()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+
+  clearForm();
+});
+
+window.addEventListener("load", () => {
+  getCategories()
+    .then((data) => updateCategoryListUI(data))
+    .catch((err) => console.log(err));
+});
+
+// Update UI
+function updateCategoryListUI(data) {
+  data.forEach((category, index) => {
+    const categoryHTML = `
+    <tr>
+    <th scope="row">${index}</th>
+    <td>${category._id.$oid.slice(0, 6)}</td>
+    <td>${category.name}</td>
+    <td>${category.description}</td>
+    <td>${category.slug}</td>
+    <td>
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-success">Edit</button>
+      <button type="button" class="btn btn-danger">Delete</button>
+    </div>
+    </td>
+    </tr>
+  `;
+    categoryList.innerHTML += categoryHTML;
+  });
+}
+
+// Clear Category Form
+function clearForm() {
+  form.reset();
+}
+
+/*
+
 const form = document.getElementById("category-form");
 const categoryList = document.getElementById("category-list");
 
@@ -68,11 +158,6 @@ form.addEventListener("submit", (e) => {
     description: form.description.value,
   };
   let csrf_token = form.csrf_token.value;
-
-  // formSubmit(entry, csrf_token)
-  //   .then((data) => console.log(data))
-  //   .catch((err) => console.log(err));
-
   getCategoryAysnc(entry, csrf_token);
 
   clearFrom();
@@ -88,3 +173,5 @@ const getCategoryAysnc = async (entry, csrf_token) => {
     .then((data) => updateUI(data))
     .catch((err) => console.log(err));
 };
+
+*/

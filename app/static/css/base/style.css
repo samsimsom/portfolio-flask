@@ -1,3 +1,7 @@
+body {
+  background-color: whitesmoke;
+}
+
 /* Base Wrapper */
 #base-wrapper {
   max-width: 960px;

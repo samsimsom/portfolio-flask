@@ -1,12 +1,11 @@
 
 
-from os import environ
+import os
 from datetime import timedelta
-from os.path import abspath, join, dirname
 from dotenv import load_dotenv
 
-app_base_dir = abspath(dirname(__file__))
-load_dotenv(join(app_base_dir, '.env'))
+app_base_dir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(app_base_dir, '.env'))
 
 
 class Config(object):
@@ -14,20 +13,21 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    SECRET_KEY = environ.get('SECRET_KEY')
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    WTF_CSRF_SECRET_KEY = os.environ.get('WTF_CSRF_SECRET_KEY')
     PERMANENT_SESSION_LIFETIME = timedelta(days=7)
 
     # Mongoengine
-    MONGODB_DB = environ.get('MONGODB_DB')
-    MONGODB_HOST = environ.get('MONGODB_HOST')
-    MONGODB_PORT = int(environ.get('MONGODB_PORT'))
-    MONGODB_USERNAME = environ.get('MONGODB_USERNAME')
-    MONGODB_PASSWORD = environ.get('MONGODB_PASSWORD')
+    MONGODB_DB = os.environ.get('MONGODB_DB')
+    MONGODB_HOST = os.environ.get('MONGODB_HOST')
+    MONGODB_PORT = int(os.environ.get('MONGODB_PORT'))
+    MONGODB_USERNAME = os.environ.get('MONGODB_USERNAME')
+    MONGODB_PASSWORD = os.environ.get('MONGODB_PASSWORD')
 
     # Upload
     MAX_CONTENT_LENGTH = 2 * 1024 * 1024
     UPLOAD_EXTENSIONS = ['.jpg', '.png', '.gif']
-    UPLOAD_PATH = join(app_base_dir, 'app/static/upload')
+    UPLOAD_PATH = os.path.join(app_base_dir, 'app/static/upload')
 
 
 class ProductionConfig(Config):

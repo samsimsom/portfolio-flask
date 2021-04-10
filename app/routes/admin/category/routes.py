@@ -38,17 +38,20 @@ def get_category():
 @admin_category.route('/add_category', methods=['POST'])
 @admin_required
 def add_category():
-    content = request.get_json()
-
-    if content:
-        category = Category()
-        category.name = content['name']
-        category.description = content['description']
-        category.set_slug(content['name'])
-        category.save()
-        return make_response(jsonify({'Success': 'New Category Added'}))
-
-    return make_response(jsonify({'Error': 'You have some problem'}))
+    form = CategoryForm()
+    if form.validate_on_submit():
+        content = request.get_json()
+        if content is not None:
+            category = Category()
+            category.name = content['name']
+            category.description = content['description']
+            category.set_slug(content['name'])
+            category.save()
+            return make_response(jsonify({'Success': 'New Category Added'}))
+        else:
+            return make_response(jsonify({'Error': 'Request Content None'}))
+    else:
+        return make_response(jsonify({'Error': form.errors}))
 
 
 # @admin_category.route('/edit_category/<id>', methods=['POST'])
