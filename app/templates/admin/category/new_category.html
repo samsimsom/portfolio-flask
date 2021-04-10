@@ -2,17 +2,24 @@
 
 {% extends 'base/base.html' %}
 
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/category/style.css') }}">
+{% endblock link %}
+
+{% block script_upper %}
+{% endblock script_upper %}
+
 {% block navbar %}
 {{ super() }}
 {% endblock navbar %}
 
 {% block app_content %}
-<div class="container" id="category-container">
+<div class="container">
 <div class="w-100 p-3">
 <h1>New Category</h1>
 </div>
 
-<div class="w-100 p-3">
+<div class="w-100 p-3 category-form-container">
   <div class="shadow-lg p-3 mb-5 bg-body rounded-3 border border-1">
     <form id="category-form">
     {{ form.hidden_tag() }}
@@ -28,10 +35,10 @@
     </div>
 
     <div class="d-grid gap-2">
-    {{ form.submit(class_='btn btn-warning') }}
+    {{ form.submit(class_='btn btn-warning', id="add-category-btn") }}
     </div>
-
     </form>
+
   </div>
 </div>
 

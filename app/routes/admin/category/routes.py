@@ -20,7 +20,7 @@ def index():
     return render_template('admin/category/index.html')
 
 
-@admin_category.route('/new_category', methods=['GET', 'POST'])
+@admin_category.route('/new_category', methods=['GET'])
 @admin_required
 def new_category():
     form = CategoryForm()
@@ -35,12 +35,20 @@ def get_category():
     return make_response(jsonify(categories))
 
 
-# @admin_category.route('/add_category', methods=['POST'])
-# @admin_required
-# def add_category():
-#     content = request.get_json(force=True)
-#     print(content)
-#     return make_response(jsonify({'Duz': 42}))
+@admin_category.route('/add_category', methods=['POST'])
+@admin_required
+def add_category():
+    content = request.get_json()
+
+    if content:
+        category = Category()
+        category.name = content['name']
+        category.description = content['description']
+        category.set_slug(content['name'])
+        category.save()
+        return make_response(jsonify({'Success': 'New Category Added'}))
+
+    return make_response(jsonify({'Error': 'You have some problem'}))
 
 
 # @admin_category.route('/edit_category/<id>', methods=['POST'])
