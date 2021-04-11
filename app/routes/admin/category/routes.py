@@ -30,11 +30,18 @@ def new_category():
                            empty_form=empty_form)
 
 
-@admin_category.route('/get_category', methods=['GET'])
+@admin_category.route('/get_categories', methods=['GET'])
 @admin_required
-def get_category():
+def get_categories():
     categories = Category.objects.all()
     return make_response(jsonify(categories))
+
+
+@admin_category.route('/get_category/<id>', methods=['GET'])
+@admin_required
+def get_category(id):
+    category = Category.objects.get(id=id)
+    return make_response(jsonify(category))
 
 
 @admin_category.route('/add_category', methods=['POST'])
@@ -49,7 +56,8 @@ def add_category():
             category.description = content['description']
             category.set_slug(content['name'])
             category.save()
-            return make_response(jsonify({'Success': 'New Category Added'}))
+            category_id = str(category.id)
+            return make_response(jsonify({'Success': category_id}))
         else:
             return make_response(jsonify({'Error': 'Request Content None'}))
     else:
