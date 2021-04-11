@@ -3,27 +3,59 @@ console.log("--- Category App - 2 ---");
 // DOM Elements
 const form = document.getElementById("category-form");
 const categoryList = document.getElementById("category-list");
+const popupAlert = document.getElementById("popup-alert");
 
 // First Load Event
 window.addEventListener("load", WindowLoad);
 function WindowLoad() {
-  getCategories()
+  getCategory()
     .then((data) => CategoriesListUI(data))
-    .catch((err) => console.error(err));
+    .catch((err) => console.log(err));
 }
 
 form.addEventListener("submit", formSubmit);
 function formSubmit(e) {
   e.preventDefault();
 
-  formFetch()
-    .then((data) => getCategory(data.Success))
-    .then((data) => addNewCategoryToUI(data))
+  addNewCategory()
+    .then((data) => {
+      if (data.Err) {
+        return PopupAlert(data.Err.name, "danger");
+      }
+      if (data.Success) {
+        clearForm();
+        return getCategory(data.Success);
+      }
+    })
+    .then((data) => {
+      if (data) {
+        addNewCategoryToUI(data);
+      }
+    })
     .catch((err) => console.error(err));
 }
 
+categoryList.addEventListener("click", EditDeleteEvent);
+function EditDeleteEvent(e) {
+  if (e.target.classList.contains("edit")) {
+    console.log(e.target.id);
+  }
+
+  if (e.target.classList.contains("delete")) {
+    deleteCategory(e.target.id)
+      .then((data) => {
+        if (data.Err) {
+          PopupAlert(data.Err, "danger");
+        } else {
+          RemoveCategoryElement(data);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+}
+
 // Backand Communications
-async function formFetch() {
+async function addNewCategory() {
   let entry = {
     name: form.name.value,
     description: form.description.value,
@@ -40,35 +72,59 @@ async function formFetch() {
   };
 
   const responce = await fetch(url, options);
-  const data = await responce.json();
-
-  return data;
-}
-
-async function getCategories() {
-  const url = `${window.origin}/admin/category/get_categories_`;
-  const options = { method: "GET" };
-
-  const responce = await fetch(url, options);
-  const data = await responce.json();
-
-  return data;
+  if (!responce.ok) {
+    throw new Error("NOT 2XX RESPONSE");
+  } else {
+    const data = await responce.json();
+    return data;
+  }
 }
 
 async function getCategory(id) {
-  const url = `${window.origin}/admin/category/get_category/${id}`;
+  let url = ``;
+  if (id) {
+    url = `${window.origin}/admin/category/get_category/${id}`;
+  } else {
+    url = `${window.origin}/admin/category/get_category`;
+  }
   const options = { method: "GET" };
 
   const responce = await fetch(url, options);
-  const data = await responce.json();
+  if (!responce.ok) {
+    throw new Error("NOT 2XX RESPONSE");
+  } else {
+    const data = await responce.json();
+    return data;
+  }
+}
 
-  return data;
+async function deleteCategory(id) {
+  const url = `${window.origin}/admin/category/delete_category/${id}`;
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": form.csrf_token.value,
+    },
+  };
+
+  const responce = await fetch(url, options);
+  if (!responce.ok) {
+    throw new Error("NOT 2XX RESPONSE");
+  } else {
+    const data = await responce.json();
+    return data;
+  }
+}
+
+async function editCategory(id) {
+  
 }
 
 // UI Generators and Update
 function CategoryHtmlGenerator(category) {
   const html = `
-  <tr>
+  <tr id="${category._id.$oid}">
   <td>${category._id.$oid}</td>
   <td>${category.name}</td>
   <td>${category.description.slice(0, 6)}</td>
@@ -98,4 +154,28 @@ function CategoriesListUI(categories) {
     const html = CategoryHtmlGenerator(category);
     categoryList.insertAdjacentHTML("afterbegin", html);
   });
+}
+
+function RemoveCategoryElement(category) {
+  let removed = document.getElementById(category.id);
+  removed.remove();
+}
+
+function PopupAlert(err, style) {
+  popupAlert.innerHTML = "";
+  const html = `
+  <div class="alert alert-${style} alert-dismissible fade show" role="alert">
+  ${err}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  `;
+  popupAlert.insertAdjacentHTML("afterbegin", html);
+
+  setTimeout(() => {
+    popupAlert.innerHTML = "";
+  }, 3000);
+}
+
+function clearForm() {
+  form.reset();
 }
