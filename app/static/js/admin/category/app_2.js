@@ -38,7 +38,29 @@ function formSubmit(e) {
 categoryList.addEventListener("click", EditDeleteEvent);
 function EditDeleteEvent(e) {
   if (e.target.classList.contains("edit")) {
-    console.log("EDIT!")
+    const table = document.getElementById(e.target.id);
+    let items = Array.from(table.children);
+
+    form.name.value = items[1].textContent.trim();
+    form.description.value = items[2].textContent.trim();
+
+    const btn = document.getElementById("add-category-btn");
+    const btnContainer = document.getElementById("btn-container");
+    btn.remove();
+
+    const html = `
+    <input class="btn btn-success" id="edit-category-btn" name="submit" type="submit" value="Edit Category">
+    `;
+
+    btnContainer.innerHTML = html;
+    form.id = "category-edit-form";
+
+    form.removeEventListener("submit", formSubmit);
+    const editForm = document.getElementById("category-edit-form");
+    editForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      console.log(editForm.name.value, editForm.description.value);
+    });
   }
 
   if (e.target.classList.contains("delete")) {
@@ -54,12 +76,11 @@ function EditDeleteEvent(e) {
   }
 }
 
-
 // Backand Communications
 async function addNewCategory() {
   let entry = {
-    name: form.name.value,
-    description: form.description.value,
+    name: form.name.value.trim(),
+    description: form.description.value.trim(),
   };
 
   const url = `${window.origin}/admin/category/add_category`;
@@ -145,16 +166,12 @@ function CategoryHtmlGenerator(category) {
   <tr id="${category._id.$oid}">
   <td>${category._id.$oid}</td>
   <td>${category.name}</td>
-  <td>${category.description.slice(0, 6)}</td>
+  <td>${category.description}</td>
   <td>${category.slug}</td>
   <td>
-  <div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-success edit" id="${
-      category._id.$oid
-    }">Edit</button>
-    <button type="button" class="btn btn-danger delete" id="${
-      category._id.$oid
-    }">Delete</button>
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-success edit" id="${category._id.$oid}">Edit</button>
+    <button type="button" class="btn btn-danger delete" id="${category._id.$oid}">Delete</button>
   </div>
   </td>
   </tr>
