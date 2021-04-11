@@ -30,6 +30,7 @@ def create_app():
 
     from app.routes.admin.category import admin_category
     app.register_blueprint(admin_category)
+    # csrf.exempt(admin_category)
 
     from app.routes.admin.user import admin_user
     app.register_blueprint(admin_user)

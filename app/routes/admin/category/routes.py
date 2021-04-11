@@ -11,7 +11,7 @@ from flask import (render_template,
 from app.routes.admin.category import admin_category
 from app.utils.decorators import admin_required
 
-from app.forms.form import CategoryForm
+from app.forms.form import CategoryForm, EmptyForm
 from app.models.post import Category
 
 
@@ -24,8 +24,10 @@ def index():
 @admin_required
 def new_category():
     form = CategoryForm()
+    empty_form = EmptyForm()
     return render_template('admin/category/new_category.html',
-                           form=form)
+                           form=form,
+                           empty_form=empty_form)
 
 
 @admin_category.route('/get_category', methods=['GET'])
@@ -61,8 +63,11 @@ def add_category():
 #     return make_response(jsonify(categories))
 
 
-# @admin_category.route('/delete_category/<id>', methods=['POST'])
-# @admin_required
-# def delete_category():
-#     categories = Category.objects.all()
-#     return make_response(jsonify(categories))
+@admin_category.route('/delete_category/<id>', methods=['DELETE'])
+@admin_required
+def delete_category(id):
+
+    category = Category.objects.get(id=id)
+    category.delete()
+
+    return make_response(jsonify({'id': id, 'delete': 'ok'}))
