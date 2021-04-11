@@ -12,7 +12,7 @@ from mongoengine.errors import ValidationError
 from app.routes.admin.category import admin_category
 from app.utils.decorators import admin_required
 
-from app.forms.form import CategoryForm, EmptyForm
+from app.forms.form import CategoryForm
 from app.models.post import Category
 
 

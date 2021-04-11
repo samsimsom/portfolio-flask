@@ -101,9 +101,3 @@ class CategoryForm(FlaskForm):
 
         if category is not None:
             raise ValidationError('Please use a different category name.')
-
-
-# ------------------------------------------------------------------------------
-# EMPTY FROM
-class EmptyForm(FlaskForm):
-    submit = SubmitField()
