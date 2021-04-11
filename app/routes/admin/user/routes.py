@@ -3,6 +3,7 @@
 from flask import render_template
 
 from app.routes.admin.user import admin_user
+
 from app.utils.decorators import admin_required
 
 

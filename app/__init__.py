@@ -3,6 +3,7 @@ from os import environ
 from flask import Flask
 
 from app.exts.database import db, session_interface
+from app.exts.csrf import csrf
 
 
 def create_app():
@@ -12,6 +13,7 @@ def create_app():
     app.session_interface = session_interface(db)
 
     db.init_app(app)
+    csrf.init_app(app)
 
     # Blueprint Registration
     from app.routes.main import main
@@ -28,6 +30,7 @@ def create_app():
 
     from app.routes.admin.category import admin_category
     app.register_blueprint(admin_category)
+    # csrf.exempt(admin_category)
 
     from app.routes.admin.user import admin_user
     app.register_blueprint(admin_user)

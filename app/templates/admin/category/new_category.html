@@ -2,46 +2,47 @@
 
 {% extends 'base/base.html' %}
 
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/category/style.css') }}">
+{% endblock link %}
+
+{% block script_upper %}
+{% endblock script_upper %}
+
 {% block navbar %}
 {{ super() }}
 {% endblock navbar %}
 
 {% block app_content %}
-<div class="container" id="category-container">
+<div class="container">
 <div class="w-100 p-3">
+
+<div id="popup-alert"></div>
+
 <h1>New Category</h1>
 </div>
 
-<div class="w-100 p-3">
-<div class="shadow-lg p-3 mb-5 bg-body rounded-3 border border-1">
-<form action="{{ url_for('admin_category.new_category') }}" method="post">
-{{ form.hidden_tag() }}
-<div>
-{% for error in form.name.errors %}
-<span style="color: red;">[{{ error }}]</span>
-{% endfor %}
-</div>
-<div class="form-floating mb-3">
-{{ form.name(class_="form-control", id="fTitle-1") }}
-{{ form.name.label(for="fTitle-1") }}
-</div>
-<div>
-{% for error in form.description.errors %}
-<span style="color: red;">[{{ error }}]</span>
-{% endfor %}
-</div>
-<div class="form-floating mb-3">
-{{ form.description(class_="form-control", id="fTextArea-1", 
-                    **{'style':'height: 150px'}) }}
-{{ form.description.label(for="fTextArea-1") }}
-</div>
+<div class="w-100 p-3 category-form-container">
+  <div class="shadow-lg p-3 mb-5 bg-body rounded-3 border border-1">
+    <form id="category-form">
+    {{ form.hidden_tag() }}
 
-<div class="d-grid gap-2">
-{{ form.submit(class_='btn btn-warning') }}
-</div>
+    <div class="form-floating mb-3">
+    {{ form.name(class_="form-control", id="category-name") }}
+    {{ form.name.label(for="category-name") }}
+    </div>
 
-</form>
-</div>
+    <div class="form-floating mb-3">
+    {{ form.description(class_="form-control", id="category-description", **{'style':'height: 150px'}) }}
+    {{ form.description.label(for="category-description") }}
+    </div>
+
+    <div class="d-grid gap-2">
+    {{ form.submit(class_='btn btn-warning', id="add-category-btn") }}
+    </div>
+    </form>
+
+  </div>
 </div>
 
 <hr>
@@ -49,7 +50,6 @@
 <table class="table table-hove">
 <thead>
 <tr>
-<th scope="col">#</th>
 <th scope="col">id</th>
 <th scope="col">Name</th>
 <th scope="col">Description</th>
@@ -58,24 +58,7 @@
 </tr>
 </thead>
 <tbody id="category-list">
-
-{#
-{% for category in categories %}
-<tr>
-<th scope="row">{{ loop.index }}</th>
-<td>{{ category.name }}</td>
-<td>{{ category.description }}</td>
-<td>{{ category.slug }}</td>
-<td>
-<div class="btn-group" role="group" aria-label="Basic example">
-  <button type="button" class="btn btn-success">Edit</button>
-  <button type="button" class="btn btn-danger">Delete</button>
-</div>
-</td>
-</tr>
-{% endfor %} 
-#}
-
+<!-- Dynamic Content -->
 </tbody>
 </table>
 </div>
@@ -83,5 +66,5 @@
 {% endblock app_content %}
 
 {% block script_lower %}
-<script src="{{ url_for('static', filename='js/admin/category/app.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin/category/app_2.js') }}"></script>
 {% endblock script_lower %}
