@@ -25,10 +25,8 @@ def index():
 @admin_required
 def new_category():
     form = CategoryForm()
-    empty_form = EmptyForm()
     return render_template('admin/category/new_category.html',
-                           form=form,
-                           empty_form=empty_form)
+                           form=form)
 
 
 @admin_category.route('/get_category', methods=['GET'])
