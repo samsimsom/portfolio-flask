@@ -38,7 +38,7 @@ function formSubmit(e) {
 categoryList.addEventListener("click", EditDeleteEvent);
 function EditDeleteEvent(e) {
   if (e.target.classList.contains("edit")) {
-    console.log(e.target.id);
+    console.log("EDIT!")
   }
 
   if (e.target.classList.contains("delete")) {
@@ -53,6 +53,7 @@ function EditDeleteEvent(e) {
       .catch((err) => console.log(err));
   }
 }
+
 
 // Backand Communications
 async function addNewCategory() {
@@ -117,9 +118,26 @@ async function deleteCategory(id) {
   }
 }
 
+/*
 async function editCategory(id) {
-  
+  const url = `${window.origin}/admin/category/edit_category/${id}`;
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": form.csrf_token.value,
+    },
+  };
+
+  const responce = await fetch(url, options);
+  if (!responce.ok) {
+    throw new Error("NOT 2XX RESPONSE");
+  } else {
+    const data = await responce.json();
+    return data;
+  }
 }
+*/
 
 // UI Generators and Update
 function CategoryHtmlGenerator(category) {

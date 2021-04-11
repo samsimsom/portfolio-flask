@@ -65,7 +65,7 @@ def add_category():
         return make_response(jsonify({'Err': form.errors}))
 
 
-@admin_category.route('/edit_category/<id>', methods=['PUT'])
+@admin_category.route('/edit_category/<id>', methods=['POST'])
 @admin_required
 def edit_category():
     categories = Category.objects.all()
