@@ -1,4 +1,5 @@
-console.log("--- Category App - 2 ---");
+'use strict'
+console.log("--- Category App ---");
 
 // DOM Elements
 const form = document.getElementById("add-category-form")
