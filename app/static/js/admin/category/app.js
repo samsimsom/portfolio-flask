@@ -1,17 +1,14 @@
 console.log("--- Category App - 2 ---");
 
-let editIsActivated
-let addIsActivated
-
 // DOM Elements
 const form = document.getElementById("add-category-form")
-const categoryList = document.getElementById("category-list");
-const popupAlertDiv = document.getElementById("popup-alert");
-const submitBtn = document.getElementById("add-category-btn");
-const submitBtnContainer = document.getElementById("btn-container");
+const categoryList = document.getElementById("category-list")
+const popupAlertDiv = document.getElementById("popup-alert")
+const submitBtn = document.getElementById("add-category-btn")
+const submitBtnContainer = document.getElementById("btn-container")
 
 // Event Listeners
-window.addEventListener("load", WindowLoad);
+window.addEventListener("load", WindowLoad)
 function WindowLoad(e) {
   // Fetch all categories from db
   getCategory()
@@ -42,7 +39,7 @@ function addFormSubmit(e) {
 }
 
 
-categoryList.addEventListener("click", editDeleteEvent);
+categoryList.addEventListener("click", editDeleteEvent)
 function editDeleteEvent(e) {
   // EDIT
   if (e.target.classList.contains("edit")) {
