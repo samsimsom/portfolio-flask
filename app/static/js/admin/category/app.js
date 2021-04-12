@@ -1,7 +1,15 @@
 'use strict'
 console.log('--- Category App ---')
+/*
+
+        PROTOTYPE - 4-12-2021
+        BY - mft
+
+*/
+
 
 // DOM Elements
+let tr
 const form = document.getElementById('add-category-form')
 const categoryList = document.getElementById('category-list')
 const popupAlertDiv = document.getElementById('popup-alert')
@@ -43,12 +51,19 @@ categoryList.addEventListener('click', editDeleteEvent)
 function editDeleteEvent(e) {
   // EDIT
   if (e.target.classList.contains('edit')) {
-    console.log('EDIT!')
+    let id = e.target.id.split('-')[0]
+    let trTableId = `${id}-category-table-tr`
+    getCategory(id).then((data) => {
+      tr = document.getElementById(trTableId)
+      tr.innerHTML = ''
+      tr.insertAdjacentHTML('afterbegin', editFormGenerator(data))
+    })
   }
 
   // DELETE
   if (e.target.classList.contains('delete')) {
-    deleteCategory(e.target.id)
+    let id = e.target.id.split('-')[0]
+    deleteCategory(id)
       .then((data) => {
         if (data.Err) {
           popupAlert(data.Err, 'danger')
@@ -57,6 +72,38 @@ function editDeleteEvent(e) {
         }
       })
       .catch((err) => console.log(err))
+  }
+
+  // CANCEL
+  if (e.target.classList.contains('cancel')) {
+    let id = e.target.id.split('-')[0]
+    let trTableId = `${id}-category-table-tr`
+    tr = document.getElementById(trTableId)
+    if (id === tr.id.split('-')[0]) {
+      getCategory(id).then((data) => {
+        tr.innerHTML = ''
+        tr.insertAdjacentHTML('afterbegin', categoryHtmlGenerator(data))
+      })
+    }
+  }
+
+  // SUBMIT
+  if (e.target.classList.contains('submit')) {
+    e.preventDefault()
+    let id = e.target.id.split('-')[0]
+    let trTableId = `${id}-category-table-tr`
+    tr = document.getElementById(trTableId)
+    if (id === tr.id.split('-')[0]) {
+      editCategory(id).then((data) => {
+        if (data.Err) {
+          return popupAlert(data.Err, 'danger')
+        }
+        getCategory(id).then((data) => {
+          tr.innerHTML = ''
+          tr.insertAdjacentHTML('afterbegin', categoryHtmlGenerator(data))
+        })
+      })
+    }
   }
 }
 
@@ -123,39 +170,93 @@ async function deleteCategory(id) {
   }
 }
 
-/*
 async function editCategory(id) {
-  const url = `${window.origin}/admin/category/edit_category/${id}`;
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": form.csrf_token.value,
-    },
-  };
+  let entry = {
+    name: document.getElementById(`${id}-name-input`).value.trim(),
+    slug: document.getElementById(`${id}-slug-input`).value.trim(),
+    description: document.getElementById(`${id}-description-input`)
+      .value.trim(),
+  }
 
-  const responce = await fetch(url, options);
+  const url = `${window.origin}/admin/category/edit_category/${id}`
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': form.csrf_token.value,
+    },
+    body: JSON.stringify(entry),
+  }
+
+  const responce = await fetch(url, options)
   if (!responce.ok) {
-    throw new Error("NOT 2XX RESPONSE");
+    throw new Error('NOT 2XX RESPONSE')
   } else {
-    const data = await responce.json();
-    return data;
+    const data = await responce.json()
+    return data
   }
 }
-*/
 
 // UI Generators and Update
+function editFormGenerator(category) {
+  const html = `
+    <td colspan="5">
+    <div class="shadow p-3 bg-body rounded">
+    <form id="${category._id.$oid}-edit-form">
+    <!-- Flex Row -->
+    <div class="d-flex flex-row align-items-center">
+      <div class="p-1 h6">Edit Category</div>
+    </div>
+    <!-- Flex Row -->
+    <div class="d-flex flex-row align-items-center">
+      <div class="p-1 w-25">Name : </div>
+      <div class="p-1 flex-fill">
+        <input type="text" class="form-control form-control-sm" value="${category.name}" id="${category._id.$oid}-name-input" required>
+      </div>
+    </div>
+    <!-- Flex Row -->
+    <div class="d-flex flex-row align-items-center">
+      <div class="p-1 w-25">Slug : </div>
+      <div class="p-1 flex-fill">
+        <input type="text" class="form-control form-control-sm" value="${category.slug}" id="${category._id.$oid}-slug-input" required>
+      </div>
+    </div>
+    <!-- Flex Row -->
+    <div class="bd-highlight">
+      <div class="d-flex flex-row align-items-center">
+        <div class="p-1 w-25">Description : </div>
+        <div class="p-1 flex-fill">
+          <input type="text" class="form-control form-control-sm" value="${category.description}" id="${category._id.$oid}-description-input">
+        </div>
+      </div>
+    </div>
+    <!-- Flex Row -->
+    <div class="d-flex flex-row align-items-center">
+      <div class="p-1">
+      <button type="button" id="${category._id.$oid}-edit-form-cancel-btn" class="btn btn-info btn-sm cancel">Cancel</button>
+      </div>
+      <div class="p-1">
+      <button type="submit" id="${category._id.$oid}-edit-submit-btn" class="btn btn-primary btn-sm submit">Submit</button>
+      </div>
+    </div>
+    <!-- Flex Row -->
+    </form>
+    </div>
+    </td>
+  `
+  return html
+}
+
 function categoryHtmlGenerator(category) {
   const html = `
-  <tr id="${category._id.$oid}">
-  <td>${category._id.$oid}</td>
+  <tr id="${category._id.$oid}-category-table-tr">
   <td>${category.name}</td>
   <td>${category.description}</td>
   <td>${category.slug}</td>
   <td>
   <div class="btn-group" role="group">
-    <button type="button" class="btn btn-success edit" id="${category._id.$oid}">Edit</button>
-    <button type="button" class="btn btn-danger delete" id="${category._id.$oid}">Delete</button>
+    <button type="button" class="btn btn-success edit" id="${category._id.$oid}-category-edit-btn">Edit</button>
+    <button type="button" class="btn btn-danger delete" id="${category._id.$oid}-category-delete-btn">Delete</button>
   </div>
   </td>
   </tr>
@@ -176,7 +277,8 @@ function categoriesListUI(categories) {
 }
 
 function removeCategoryElement(category) {
-  let removed = document.getElementById(category.id)
+  let id = `${category.id.split('-')[0]}-category-table-tr`
+  let removed = document.getElementById(id)
   removed.remove()
 }
 
