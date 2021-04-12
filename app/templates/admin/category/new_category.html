@@ -24,7 +24,7 @@
 
 <div class="w-100 p-3 category-form-container">
   <div class="shadow-lg p-3 mb-5 bg-body rounded-3 border border-1">
-    <form id="category-form">
+    <form id="add-category-form">
     {{ form.hidden_tag() }}
 
     <div class="form-floating mb-3">
@@ -66,5 +66,5 @@
 {% endblock app_content %}
 
 {% block script_lower %}
-<script src="{{ url_for('static', filename='js/admin/category/app_2.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin/category/app.js') }}"></script>
 {% endblock script_lower %}
