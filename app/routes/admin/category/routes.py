@@ -7,7 +7,7 @@ from flask import (render_template,
                    make_response,
                    jsonify,
                    request)
-from mongoengine.errors import ValidationError
+from mongoengine.errors import ValidationError, NotUniqueError
 
 from app.routes.admin.category import admin_category
 from app.utils.decorators import admin_required
@@ -25,10 +25,8 @@ def index():
 @admin_required
 def new_category():
     form = CategoryForm()
-    empty_form = EmptyForm()
     return render_template('admin/category/new_category.html',
-                           form=form,
-                           empty_form=empty_form)
+                           form=form)
 
 
 @admin_category.route('/get_category', methods=['GET'])
@@ -67,9 +65,21 @@ def add_category():
 
 @admin_category.route('/edit_category/<id>', methods=['POST'])
 @admin_required
-def edit_category():
-    categories = Category.objects.all()
-    return make_response(jsonify(categories))
+def edit_category(id):
+    content = request.get_json()
+    if content is not None:
+        try:
+            category = Category.objects.get(id=id)
+            category.name = content['name']
+            category.slug = content['slug']
+            category.description = content['description']
+            category.save()
+            category_id = str(category.id)
+            return make_response(jsonify({'Success': category_id}))
+        except NotUniqueError:
+            return make_response({'Err': 'NotUniqueError'})
+    else:
+        return make_response({'Err': 'Empty Content'})
 
 
 @admin_category.route('/delete_category/<id>', methods=['DELETE'])
