@@ -1,10 +1,16 @@
 
 
-from flask import g, session
-from app import create_app, db
+from uuid import uuid4
+
+from flask import session
+
+from app import create_app
 from app.cli import cmds
-from app.models.user import User, Role
-from app.models.post import Post
+
+from app.utils.authentication import (get_current_user, get_current_user_role,
+                                      is_anonymous, is_user, is_admin,
+                                      add_user_in_session)
+from app.models.user import Role
 
 
 app = create_app()
@@ -15,41 +21,34 @@ cmds.register(app)
 # APP REQUESTS
 @app.before_request
 def before_app_request():
-    g.user = None
-    if 'user' in session:
-        g.user = session['user']
-    else:
-        g.user = {'id': 'anonymous',
-                  'username': 'anonymous',
-                  'slug': 'anonymous',
-                  'email': 'anonymous',
-                  'role': {'name': 'ANONYMOUS'}}
+    if not session.get('user'):
+        add_user_in_session(uuid4(), 'anonymous',
+                            'anonymous@mail.com', 'anonymous',
+                            'ANONYMOUS')
 
 
 # ------------------------------------------------------------------------------
 # CONTEXT PROCESSORS
-# Jinja template icerinde kullanabilecegin current_user
-# degiskenini olusturuyor.
 @app.context_processor
-def get_current_user():
-    return dict(current_user=g.user)
+def ctp_current_user():
+    return dict(current_user=get_current_user())
 
 
-# Jinja template icerinde kullanabilecegin role
-# degiskenini olusturuyor.
 @app.context_processor
-def db_utilities():
-    def get_user_role(name):
-        role = Role.objects.filter(name=name).first()
-        if role is None:
-            role = {'name': 'USER'}
-            return role
-        return role.name
-    return dict(role=get_user_role)
+def ctp_current_user_role():
+    return dict(current_user_role=get_current_user_role())
 
 
-# ------------------------------------------------------------------------------
-# SHELL CONTEXT PROCESSORS
-@app.shell_context_processor
-def make_shell_context():
-    return {'db': db, 'User': User, 'Post': Post}
+@app.context_processor
+def ctp_is_anonymous():
+    return dict(is_anonymous=is_anonymous())
+
+
+@app.context_processor
+def ctp_is_user():
+    return dict(is_user=is_user())
+
+
+@app.context_processor
+def ctp_is_admin():
+    return dict(is_admin=is_admin())

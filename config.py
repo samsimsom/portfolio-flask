@@ -12,10 +12,11 @@ class Config(object):
     # Flask
     DEBUG = False
     TESTING = False
-    CSRF_ENABLED = True
     SECRET_KEY = os.environ.get('SECRET_KEY')
+
+    # CSRF
+    CSRF_ENABLED = True
     WTF_CSRF_SECRET_KEY = os.environ.get('WTF_CSRF_SECRET_KEY')
-    PERMANENT_SESSION_LIFETIME = timedelta(days=7)
 
     # Mongoengine
     MONGODB_DB = os.environ.get('MONGODB_DB')
@@ -28,6 +29,13 @@ class Config(object):
     MAX_CONTENT_LENGTH = 2 * 1024 * 1024
     UPLOAD_EXTENSIONS = ['.jpg', '.png', '.gif']
     UPLOAD_PATH = os.path.join(app_base_dir, 'app/static/upload')
+
+    # Session
+    SESSION_COOKIE_NAME = 'SNID'
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    PERMANENT_SESSION_LIFETIME = timedelta(days=7)
 
 
 class ProductionConfig(Config):

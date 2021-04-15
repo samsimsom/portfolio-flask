@@ -1,8 +1,10 @@
 
 
-from flask import render_template, redirect, url_for, abort, session, g
-from app.routes.user import user    # Blueprint
+from flask import render_template
+from app.routes.user import user
 from app.models.user import User
+
+from app.utils.authentication import get_current_user_username
 from app.utils.decorators import login_required
 
 
@@ -11,8 +13,5 @@ from app.utils.decorators import login_required
 def profile(slug):
 
     user = User.objects.get_or_404(slug=slug)
-
-    if user.username == g.user['username']:
-        pass
 
     return render_template('user/profile.html', user=user)

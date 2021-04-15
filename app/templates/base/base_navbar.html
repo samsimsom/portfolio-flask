@@ -1,58 +1,59 @@
-<nav class="navbar sticky-top rounded-bottom navbar-expand-sm navbar-light bg-warning">
+<nav class="navbar sticky-top rounded-bottom navbar-expand-sm navbar-dark bg-dark">
   <div class="container">
-    <button class="navbar-toggler" type="button" 
-    data-bs-toggle="collapse" 
-    data-bs-target="#navbarSupportedContent" 
-    aria-controls="navbarSupportedContent" 
-    ria-expanded="false" 
-    aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" ria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link {% if request.url_rule.endpoint == 'main.index' %}active{% endif %}" 
-          aria-current="page" href="{{ url_for('main.index') }}">Home</a>
+          <a class="nav-link {% if request.url_rule.endpoint == 'main.index' %}active{% endif %}" aria-current="page"
+            href="{{ url_for('main.index') }}">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if request.url_rule.endpoint == 'contact.index' %}active{% endif %}"
-           href="{{ url_for('contact.index') }}">Contact</a>
+            href="{{ url_for('contact.index') }}">Contact</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if request.url_rule.endpoint == 'about.index' %}active{% endif %}"
-           href="{{ url_for('about.index') }}">About</a>
+            href="{{ url_for('about.index') }}">About</a>
         </li>
-        {% if current_user['role'].name == role('USER') %}
+        {% if is_user %}
         <!-- Dropdown User -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
-          role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ g.user['username']|capitalize }}
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            {{ current_user['username']|capitalize }}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" 
-                   href="{{ url_for('user.profile', slug=g.user['slug']) }}">Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ url_for('user.profile', slug=current_user['slug']) }}">Profile</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
             <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
           </ul>
         </li>
         <!-- Dropdown User /-->
-        {% elif current_user['role'].name == role('ADMIN') %}
+        {% elif is_admin %}
         <!-- Dropdown Admin -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
-          role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ g.user['username']|capitalize }}
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            {{ current_user['username']|capitalize }}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{ url_for('user.profile', slug=g.user['slug']) }}">Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ url_for('user.profile', slug=current_user['slug']) }}">Profile</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
             <li><a class="dropdown-item" href="{{ url_for('admin_main.index') }}">Dashboard</a></li>
             <li><a class="dropdown-item" href="{{ url_for('admin_post.new_post') }}">Post</a></li>
             <li><a class="dropdown-item" href="{{ url_for('admin_category.new_category') }}">Category</a></li>
             <li><a class="dropdown-item" href="#">Comment</a></li>
             <li><a class="dropdown-item" href="{{ url_for('admin_user.index') }}">User</a></li>
-            <li><hr class="dropdown-divider"></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
             <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
           </ul>
         </li>
@@ -60,8 +61,8 @@
         {% else %}
         <!-- Dropdown Anonymous -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
-          role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
             Account
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -71,7 +72,7 @@
         </li>
         <!-- Dropdown Anonymous /-->
         {% endif %}
-        
+
       </ul>
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
