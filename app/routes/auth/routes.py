@@ -8,12 +8,15 @@ from app.routes.auth import auth    # Blueprint
 from app.forms.form import LoginForm, RegistrationForm
 from app.models.user import User, Role
 from app.utils.decorators import login_required
+from app.utils.authentication import (is_anonymous,
+                                      is_in_session,
+                                      add_user_in_session)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
 
-    if 'user' in session:
+    if is_in_session() and not is_anonymous():
         return redirect(url_for('main.index'))
 
     form = LoginForm()
@@ -23,15 +26,16 @@ def login():
         user = User.objects.filter(email=form.email.data.lower()).first()
 
         if (user is None) or not (user.check_password(form.password.data)):
-            flash('Invalid username or password.')
+            flash('Invalid username or password.', 'danger')
             return redirect(url_for('auth.login'))
 
         # User Login and Remeber_Me
-        session['user'] = {'id': user.id,
-                           'username': user.username,
-                           'slug': user.slug,
-                           'email': user.email,
-                           'role': user.role}
+        add_user_in_session(user.id,
+                            user.username,
+                            user.email,
+                            user.slug,
+                            user.role.name)
+
         if form.remember_me.data:
             session.permanent = True
         else:
@@ -50,7 +54,7 @@ def login():
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
 
-    if 'user' in session:
+    if is_in_session() and not is_anonymous():
         return redirect(url_for('main.index'))
 
     form = RegistrationForm()
@@ -64,7 +68,7 @@ def register():
         user.role = Role.objects.filter(name='USER').first()
         user.save()
 
-        flash('Congratulations, you are now a registered user!')
+        flash('Congratulations, you are now a registered user!', 'primary')
 
         return redirect(url_for('auth.login'))
 
@@ -75,7 +79,7 @@ def register():
 @auth.route('/logout')
 @login_required
 def logout():
-    if 'user' in session:
+    if is_in_session():
         session.pop('user', None)
 
     return redirect(url_for('main.index'))

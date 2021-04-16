@@ -13,31 +13,27 @@
 
 {% block app_content %}
 <div class="container">
-  <div class="w-100 p-3">
 
-    <div id="popup-alert"></div>
-
-    <h1>New Category</h1>
+  <div id="popup-alert">
   </div>
 
-  <div class="w-100 p-3 category-form-container">
-    <div class="shadow-lg p-3 mb-5 bg-body rounded-3 border border-1">
-      <form id="add-category-form">
-        {{ form.hidden_tag() }}
-        <div class="form-floating mb-3">
-          {{ form.name(class_="form-control", id="category-name") }}
-          {{ form.name.label(for="category-name") }}
-        </div>
-        <div class="form-floating mb-3">
-          {{ form.description(class_="form-control", id="category-description", **{'style':'height: 150px'}) }}
-          {{ form.description.label(for="category-description") }}
-        </div>
-        <div class="d-grid gap-2" id="btn-container">
-          {{ form.submit(class_='btn btn-warning', id="add-category-btn") }}
-        </div>
-      </form>
+  <h1 class="display-3 mb-5">New Category</h1>
 
-    </div>
+  <div class="shadow-sm p-3 mb-5 bg-body rounded-3 border border-1">
+    <form id="add-category-form">
+      {{ form.hidden_tag() }}
+      <div class="form-floating mb-3">
+        {{ form.name(class_="form-control", id="category-name") }}
+        {{ form.name.label(for="category-name") }}
+      </div>
+      <div class="form-floating mb-3">
+        {{ form.description(class_="form-control", id="category-description", **{'style':'height: 150px'}) }}
+        {{ form.description.label(for="category-description") }}
+      </div>
+      <div class="d-grid gap-2" id="btn-container">
+        {{ form.submit(class_='btn btn-dark', id="add-category-btn") }}
+      </div>
+    </form>
   </div>
 
   <hr>

@@ -20,18 +20,8 @@ class Category(db.Document):
     def __repr__(self):
         return f'<Category | Name: {self.name} Slug: {self.slug}>'
 
-    def set_slug(self, username):
-        self.slug = slugify(username)
-
-
-# ------------------------------------------------------------------------------
-# COMMENT MODEL
-class Comment(db.Document):
-    author = db.ReferenceField(User, reverse_delete_rule=db.CASCADE)
-    comment = db.StringField(max_length=1024)
-    creation_date = db.DateTimeField(default=datetime.utcnow())
-
-    meta = {'collection': 'comment'}
+    def set_slug(self, name):
+        self.slug = slugify(name)
 
 
 # ------------------------------------------------------------------------------

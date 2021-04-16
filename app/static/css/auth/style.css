@@ -1,0 +1,15 @@
+#upload-dropzone {
+  width: 100%;
+  height: 100%;
+  border: 2px;
+  border-color: orangered;
+  border-style: dashed;
+}
+
+#login-container {
+  max-width: 640px;
+}
+
+#register-container {
+  max-width: 640px;
+}

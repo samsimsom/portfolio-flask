@@ -80,7 +80,8 @@ class PostForm(FlaskForm):
         'Detail Images',
         validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
 
-    submit = SubmitField('New Post')
+    save = SubmitField('Save')
+    submit = SubmitField('Publish')
 
 
 # ------------------------------------------------------------------------------

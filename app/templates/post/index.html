@@ -1,5 +1,3 @@
-
-
 {% extends 'base/base.html' %}
 
 {% block navbar %}
@@ -7,13 +5,14 @@
 {% endblock navbar %}
 
 {% block app_content %}
-<h1>Post Index</h1>
-<h1>Current user in g:</h1>
+<h1 class="display-3">Post Index</h1>
 <ul>
-  <li>username: {{ g.user['username'] }}</li>
-  <li>slug: {{ g.user['slug'] }}</li>
-  <li>email: {{ g.user['email'] }}</li>
-  <li>role: {{ g.user['role']['name'] }}</li>
-</ul>  
+  <li>current_user:</li>
+  <li>id : <strong>{{ current_user['id'] }}</strong></li>
+  <li>username : <strong>{{ current_user['username'] }}</strong></li>
+  <li>email : <strong>{{ current_user['email'] }}</strong></li>
+  <li>slug : <strong>{{ current_user['slug'] }}</strong></li>
+  <li>role : <strong>{{ current_user['role'] }}</strong></li>
+</ul>
 {{ files }}
 {% endblock app_content %}
