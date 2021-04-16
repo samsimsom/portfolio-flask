@@ -10,18 +10,3 @@ body {
 #register-container #category-container {
   max-width: 640px;
 }
-
-/* Dropdown menu background color*/
-.navbar-nav > li > .dropdown-menu {
-  background-color: #ffc107;
-  border: 0px;
-}
-
-/* Dropdown menu font color*/
-.navbar-nav > li > .dropdown-menu a {
-  color: #ffffff;
-}
-
-.navbar-nav > li > .dropdown-menu a:hover {
-  background-color: #c39200;
-}

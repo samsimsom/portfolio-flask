@@ -5,3 +5,7 @@
   border-color: orangered;
   border-style: dashed;
 }
+
+#post-container {
+  max-width: 640px;
+}

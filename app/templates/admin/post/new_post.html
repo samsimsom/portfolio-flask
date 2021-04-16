@@ -6,6 +6,7 @@
 {% block link %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/post/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base/rich-text-editor.css') }}">
 {% endblock link %}
 <!-- link /-->
 
@@ -22,11 +23,10 @@
 
 
 {% block app_content %}
-<div class="container">
+<div class="container" id="post-container">
   <div class="mb-5">
     <h1 class="display-3">New Post</h1>
   </div>
-
 
   <!-- Upload Files -->
   <div class="shadow-sm mb-3 bg-body rounded-3">
@@ -36,7 +36,8 @@
       </div>
 
       <div class="card-body">
-        <form action="{{ url_for('admin_post.upload_files') }}" class="dropzone" id="new-post-dropzone" name="newPostDropzone">
+        <form action="{{ url_for('admin_post.upload_files') }}" class="dropzone" id="new-post-dropzone"
+          name="newPostDropzone">
           {{ form.hidden_tag() }}
         </form>
       </div>
@@ -66,59 +67,42 @@
         Details
       </div>
       <div class="card-body">
+
         <form method="POST" enctype="multipart/form-data">
           {{ form.hidden_tag() }}
-
-          <div>
-            {% for error in form.title.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-          </div>
 
           <div class="form-floating mb-3">
             {{ form.title(class_="form-control", id="fTitle-1") }}
             {{ form.title.label(for="fTitle-1") }}
           </div>
 
-          <div>
-            {% for error in form.description.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-          </div>
-
           <div class="form-floating mb-3">
-            {{ form.description(class_="form-control", id="fTextArea-1",
-            **{'style':'height: 150px'}) }}
-            {{ form.description.label(for="fTextArea-1") }}
+            {{ form.description(id="fTextArea-1", placeholder="Description") }}
           </div>
 
-          <div>
-            {% for error in form.category.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-          </div>
-
-          {# CATEGORY #}
           <div class="input-group mb-3">
             {{ form.category.label(class_="input-group-text", for="fSelect-1") }}
             {{ form.category(class_="form-select", id="fSelect-1") }}
           </div>
 
-          <div class="d-grid gap-2">
-            {{ form.submit(class_='btn btn-dark') }}
+          <div class="d-flex justify-content-end">
+            <div class="order-1 pe-1">{{ form.save(class_='btn btn-dark') }}</div>
+            <div class="order-2">{{ form.submit(class_='btn btn-dark') }}</div>
           </div>
 
         </form>
       </div>
+
     </div>
   </div>
+
 </div>
 {% endblock app_content %}
 
 {% block script_lower %}
-<script>
-  let current_user = '{{ current_user|tojson }}';
-</script>
+<script>let current_user = '{{ current_user|tojson }}';</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+<script src="{{ url_for('static', filename='js/base/rich-text-editor.js') }}"></script>
 <script src="{{ url_for('static', filename='js/admin/post/post.js') }}"></script>
+<script>let editor = new RTE(document.getElementById('fTextArea-1'));</script>
 {% endblock script_lower %}
