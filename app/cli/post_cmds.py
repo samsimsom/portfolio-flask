@@ -3,13 +3,14 @@
 import os
 import click
 
-from app.cli import user_cli
+from app.cli import post_cli
 
 from app.exts.database import db
 from app.models.user import User, Role
+from app.models.post import Post, Category, Image
 
 
-@user_cli.cli.command('drop-all')
+@post_cli.cli.command('drop-all')
 def drop_all_colection():
     """ Drop All Collection """
     collections = db.get_db().list_collection_names()
@@ -18,45 +19,74 @@ def drop_all_colection():
     print('All Collections Record DELETED.')
 
 
-@user_cli.cli.command('drop-user')
+@post_cli.cli.command('drop-posts')
 def drop_colection():
-    """ Drop User Collection """
-    User.drop_collection()
-    print('All Users Record DELETED.')
+    """ Drop Post Collection """
+    Post.drop_collection()
+    print('All Posts DELETED.')
 
 
-@user_cli.cli.command('add-role')
+@post_cli.cli.command('add-category')
 @click.argument('name')
 def add_role(name):
-    """ Add New User Role """
+    """ Add New Post Category """
     try:
-        r = Role()
-        r.set_name(name)
-        r.set_slug(name)
-        r.description = 'Default Description'
-        r.save()
+        c = Category()
+        c.name = name
+        c.set_slug(name)
+        c.description = 'Default Description'
+        c.save()
     except Exception as exp:
         print(exp)
     else:
-        print(r.__repr__())
-        del r
+        print(c.__repr__())
+        del c
 
 
-@user_cli.cli.command('list-roles')
+@post_cli.cli.command('list-categories')
 def list_roles():
-    """ List All Role """
-    roles = Role.objects.all()
-    print([role.name for role in roles])
+    """ List Categories """
+    categories = Category.objects.all()
+    print([category.name for category in categories])
 
 
-@user_cli.cli.command('list-users')
+@post_cli.cli.command('add-post')
+@click.argument('title')
+def add_post(title):
+    p = Post()
+    p.set_author(id='606dd753962d3cbacd9bc81a')
+    p.weight = 1
+    p.set_slug(title)
+    p.set_category(id='607925c80b4f6a5286e8b8ed')
+    p.set_title(title)
+
+    # Featured Image
+    fi = Image()
+    fi.name = 'Feature Image Name'
+    fi.path = '/upload/author-username/post-id/date/file-name.jpg'
+    p.featured_image = fi
+
+    # Detail Imgages
+    for i in range(5):
+        di = Image()
+        di.name = f'Detail Image 0{i}'
+        di.path = f'/upload/author-username/post-id/date/file0{i}.jpg'
+        p.detail_images.append(di)
+
+    p.save()
+
+    print(p.__repr__())
+
+
+'''
+@post_cli.cli.command('list-users')
 def list_users():
     """ List All Users """
     users = User.objects.all()
     print([user.username for user in users])
 
 
-@user_cli.cli.command('register-user')
+@post_cli.cli.command('register-user')
 @click.argument('username')
 @click.argument('email')
 @click.argument('password')
@@ -78,7 +108,7 @@ def register_user(username, email, password, role):
         del u
 
 
-@user_cli.cli.command('login-user')
+@post_cli.cli.command('login-user')
 @click.argument('email')
 @click.argument('password')
 def login_user(email, password):
@@ -93,3 +123,4 @@ def login_user(email, password):
         return
 
     print(f'{u.__repr__()} Logged In.')
+'''

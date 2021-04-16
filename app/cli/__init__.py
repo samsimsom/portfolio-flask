@@ -4,7 +4,7 @@ from flask import Blueprint
 
 app_cli = Blueprint('app-cli', __name__, cli_group='app-cli')
 user_cli = Blueprint('user-cli', __name__, cli_group='user-cli')
-post_cli = Blueprint('user-cli', __name__, cli_group='post-cli')
+post_cli = Blueprint('post-cli', __name__, cli_group='post-cli')
 
 
 def load_cmds():
