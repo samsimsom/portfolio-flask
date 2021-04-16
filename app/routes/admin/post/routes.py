@@ -15,11 +15,13 @@ from app.routes.admin.post import admin_post
 
 from config import Config
 from app.utils.decorators import admin_required
-from app.utils.authentication import get_current_user_id
+from app.utils.authentication import (get_current_user_id,
+                                      get_current_user_username)
 
 from app.forms.form import PostForm
 
-from app.models.post import Category, Post
+from app.models.user import User
+from app.models.post import Category, Post, Image
 
 
 def validate_image(stream):
@@ -67,15 +69,20 @@ def new_post():
 def upload_files():
     uploaded_file = request.files['file']
     filename = secure_filename(uploaded_file.filename)
+
+    # file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
+    file_path = Config.UPLOAD_PATH
+
     if filename != '':
         file_ext = os.path.splitext(filename)[1]
         if file_ext not in Config.UPLOAD_EXTENSIONS or \
                 file_ext != validate_image(uploaded_file.stream):
             return "Invalid image", 400
-        uploaded_file.save(os.path.join(Config.UPLOAD_PATH, filename))
+        uploaded_file.save(os.path.join(file_path, filename))
     return '', 204
 
 
+'''
 @admin_post.route('/upload/<filename>')
 def upload(filename):
     return send_from_directory(Config.UPLOAD_PATH, filename)
@@ -85,3 +92,4 @@ def upload(filename):
 def files():
     files = os.listdir(Config.UPLOAD_PATH)
     return render_template('post/index.html', files=files)
+'''

@@ -13,6 +13,9 @@ class Role(db.Document):
 
     meta = {'collection': 'role'}
 
+    def __repr__(self) -> str:
+        return f'<Role | name: {self.name}, description: {self.description}>'
+
 
 class User(db.Document):
     username = db.StringField(max_length=64, required=True, unique=True)
