@@ -33,10 +33,6 @@ def admin_required(f):
         except:
             user = None
 
-        print(user)
-        print(is_admin())
-        print(user.role.name)
-
         if user is None or not is_admin() or not user.role.name == 'ADMIN':
             return redirect(url_for('main.index'))
 

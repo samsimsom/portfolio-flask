@@ -4,7 +4,7 @@ import os
 import click
 from app.exts.database import db
 from app.models.user import User, Role
-from app.models.post import Category, Comment, Post
+from app.models.post import Category, Post
 
 
 def register(app):

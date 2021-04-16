@@ -7,7 +7,7 @@ body {
   max-width: 960px;
 }
 
-#register-container #category-container{
+#register-container #category-container {
   max-width: 640px;
 }
 
@@ -24,11 +24,4 @@ body {
 
 .navbar-nav > li > .dropdown-menu a:hover {
   background-color: #c39200;
-}
-
-#upload-dropzone {
-  height: 100%;
-  border: 2px;
-  border-color: mediumblue;
-  border-style: dashed;
 }

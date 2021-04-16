@@ -12,13 +12,14 @@ from flask import (render_template,
 from werkzeug.utils import secure_filename
 
 from app.routes.admin.post import admin_post
+
 from config import Config
 from app.utils.decorators import admin_required
+from app.utils.authentication import get_current_user_id
 
 from app.forms.form import PostForm
 
-from app.models.post import Category
-from app.models.post import Post
+from app.models.post import Category, Post
 
 
 def validate_image(stream):
@@ -35,9 +36,9 @@ def too_large(e):
     return "File is too large", 413
 
 
-@admin_post.route('/')
-def index():
-    return render_template('admin/post/index.html')
+# @admin_post.route('/')
+# def index():
+#     return render_template('admin/post/index.html')
 
 
 @admin_post.route('/new_post', methods=['GET', 'POST'])
@@ -49,7 +50,7 @@ def new_post():
 
     if form.validate_on_submit():
         post = Post()
-        post.set_author(g.user['id'])
+        post.set_author(get_current_user_id())
         post.title = form.title.data
         post.description = form.description.data
         post.set_slug(form.title.data)
