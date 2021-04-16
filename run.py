@@ -5,16 +5,16 @@ from uuid import uuid4
 from flask import session
 
 from app import create_app
-from app.cli import cmds
 
-from app.utils.authentication import (get_current_user, get_current_user_role,
-                                      is_anonymous, is_user, is_admin,
+from app.utils.authentication import (get_current_user,
+                                      get_current_user_role,
+                                      is_anonymous,
+                                      is_user,
+                                      is_admin,
                                       add_user_in_session)
-from app.models.user import Role
 
 
 app = create_app()
-cmds.register(app)
 
 
 # ------------------------------------------------------------------------------

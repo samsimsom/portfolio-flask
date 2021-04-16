@@ -25,16 +25,10 @@ class Category(db.Document):
 
 
 # ------------------------------------------------------------------------------
-# FEATURED IMAGE MODEL
-class FeaturedImage(db.Document):
-    featured_name = db.StringField()
-    featured_path = db.StringField()
-
-
-# ------------------------------------------------------------------------------
-# DETAIL IMAGES MODEL
-class DetailImages(db.Document):
-    pass
+# IMAGE MODEL
+class Image(db.EmbeddedDocument):
+    name = db.StringField(max_length=128, required=True)
+    path = db.StringField(max_length=256, required=True)
 
 
 # ------------------------------------------------------------------------------
@@ -48,10 +42,10 @@ class Post(db.Document):
     category = db.ReferenceField(Category)
 
     title = db.StringField(max_length=128, required=True)
-    description = db.StringField(max_length=1024, required=True)
+    description = db.StringField(max_length=1024)
 
-    featured_image = db.ReferenceField(FeaturedImage)
-    detail_images = db.ReferenceField(DetailImages)
+    featured_image = db.ListField(db.EmbeddedDocumentField(Image))
+    detail_images = db.ListField(db.EmbeddedDocumentField(Image))
 
     meta = {'collection': 'post', 'indexes': ['title', 'slug']}
 

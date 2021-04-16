@@ -4,4 +4,9 @@ from flask import Blueprint
 
 main = Blueprint('main', __name__, url_prefix='/')
 
-from app.routes.main import routes
+
+def load_routes():
+    from app.routes.main import routes
+
+
+load_routes()
