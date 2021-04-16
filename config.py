@@ -26,7 +26,7 @@ class Config(object):
     MONGODB_PASSWORD = os.environ.get('MONGODB_PASSWORD')
 
     # Upload
-    MAX_CONTENT_LENGTH = 2 * 1024 * 1024
+    MAX_CONTENT_LENGTH = 4 * 1024 * 1024
     UPLOAD_EXTENSIONS = ['.jpg', '.png', '.gif']
     UPLOAD_PATH = os.path.join(app_base_dir, 'app/static/upload')
 

@@ -36,8 +36,8 @@
       </div>
 
       <div class="card-body">
-        <form action="{{ url_for('admin_post.upload_files') }}" class="dropzone" id="upload-dropzone"
-          name="uploadDropzone">
+        <form action="{{ url_for('admin_post.upload_files') }}" class="dropzone" id="new-post-dropzone" name="newPostDropzone">
+          {{ form.hidden_tag() }}
         </form>
       </div>
 
@@ -116,5 +116,9 @@
 {% endblock app_content %}
 
 {% block script_lower %}
+<script>
+  let current_user = '{{ current_user|tojson }}';
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+<script src="{{ url_for('static', filename='js/admin/post/post.js') }}"></script>
 {% endblock script_lower %}
