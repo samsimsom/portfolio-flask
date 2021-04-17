@@ -25,7 +25,7 @@ Dropzone.options.newPostDropzone = {
 
     this.on('success', (file) => {
       console.log('Success! ->', file.name)
-      getUploadedFiles()
+      getUploadedFile(file.name)
         .then((data) => addImagesToDOM(data))
         .catch((err) => console.log(err))
     })
@@ -37,14 +37,29 @@ Dropzone.options.newPostDropzone = {
 }
 
 function addImagesToDOM(data) {
-  data.file_names.forEach((file) => {
-    let html = `<img src="${window.origin}/static/upload/samsimsom/${file}">`
-    filesFrame.insertAdjacentHTML('beforebegin', html)
-  })
+  // data.file_names.forEach((file) => {
+  //   let html = `<img src="${window.origin}/static/upload/samsimsom/${file}">`
+  //   filesFrame.insertAdjacentHTML('beforebegin', html)
+  // })
+
+  console.log(data)
+
+  let html = `<img src="${window.origin}/static/upload/samsimsom/${data.fileName}" class="uploaded-image">`
+  filesFrame.insertAdjacentHTML('beforebegin', html)
 }
 
 async function getUploadedFiles() {
   const url = `${window.origin}/admin/post/upload/get_files`
+  const options = { method: 'GET' }
+
+  const responce = await fetch(url, options)
+  const data = await responce.json()
+
+  return data
+}
+
+async function getUploadedFile(filename) {
+  const url = `${window.origin}/admin/post/upload/get_file/${filename}`
   const options = { method: 'GET' }
 
   const responce = await fetch(url, options)

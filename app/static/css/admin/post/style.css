@@ -9,3 +9,7 @@
 #post-container {
   max-width: 640px;
 }
+
+.uploaded-image {
+  max-width: 250px;
+}

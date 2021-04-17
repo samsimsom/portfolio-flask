@@ -113,10 +113,23 @@ def get_files():
     return make_response(jsonify({'file_names': files}))
 
 
-@admin_post.route('/upload/<filename>')
+@admin_post.route('/upload/get_file/<filename>', methods=['GET'])
 @admin_required
 def get_file(filename):
     file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
-    file = send_from_directory(file_path, filename)
+    files = os.listdir(file_path)
 
-    return make_response(file)
+    for file in files:
+        if file == filename:
+            return make_response(jsonify({'fileName': file}))
+
+    return make_response(jsonify({'file_names': files}))
+
+
+# @admin_post.route('/upload/<filename>')
+# @admin_required
+# def get_file(filename):
+#     file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
+#     file = send_from_directory(file_path, filename)
+
+#     return make_response(file)
