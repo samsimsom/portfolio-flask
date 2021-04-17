@@ -110,12 +110,13 @@ def upload_files():
 def get_files():
     file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
     files = os.listdir(file_path)
-    return make_response(jsonify({'file_names': files,
-                                  'path': file_path}))
+    return make_response(jsonify({'file_names': files}))
 
 
 @admin_post.route('/upload/<filename>')
 @admin_required
 def get_file(filename):
     file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
-    return send_from_directory(file_path, filename)
+    file = send_from_directory(file_path, filename)
+
+    return make_response(file)

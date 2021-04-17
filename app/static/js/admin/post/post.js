@@ -37,7 +37,10 @@ Dropzone.options.newPostDropzone = {
 }
 
 function addImagesToDOM(data) {
-  console.log(data)
+  data.file_names.forEach((file) => {
+    let html = `<img src="${window.origin}/static/upload/samsimsom/${file}">`
+    filesFrame.insertAdjacentHTML('beforebegin', html)
+  })
 }
 
 async function getUploadedFiles() {
