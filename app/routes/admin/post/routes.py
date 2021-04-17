@@ -1,7 +1,8 @@
 
 
-import imghdr
 import os
+import imghdr
+from slugify import slugify
 from flask import (render_template,
                    redirect,
                    url_for,
@@ -38,6 +39,16 @@ def too_large(e):
     return "File is too large", 413
 
 
+# Bu blueprinte yapilan her requestden sonra,
+# new_post sayfasinda ve response kodu ok ise
+# Database e bos bir dokuman olusturmasini istiyorum
+@admin_post.after_request
+def create_post(response):
+    if response.status_code == 200 and request.path == '/admin/post/new_post':
+        print('New Post Created!')
+    print(response)
+    return response
+
 # @admin_post.route('/')
 # def index():
 #     return render_template('admin/post/index.html')
@@ -47,8 +58,11 @@ def too_large(e):
 @admin_required
 def new_post():
     form = PostForm()
+
+    # Generate Selectionbox with current Categories
     categories = Category.objects.all()
-    form.category.choices = [(x.id, x.name) for x in categories]
+    form.category.choices = [(category.id, category.name)
+                             for category in categories]
 
     if form.validate_on_submit():
         post = Post()
@@ -57,6 +71,7 @@ def new_post():
         post.description = form.description.data
         post.set_slug(form.title.data)
         post.set_category(form.category.data)
+
         post.save()
 
         return redirect(url_for('admin_post.new_post'))
@@ -70,8 +85,14 @@ def upload_files():
     uploaded_file = request.files['file']
     filename = secure_filename(uploaded_file.filename)
 
-    # file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
-    file_path = Config.UPLOAD_PATH
+    # Create username based upload folder
+    file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
+    if not os.path.exists(file_path):
+        mode = 0o770
+        parent_dir = Config.UPLOAD_PATH
+        directory = get_current_user_username()
+        path = os.path.join(parent_dir, directory)
+        os.makedirs(path, mode)
 
     if filename != '':
         file_ext = os.path.splitext(filename)[1]
@@ -86,10 +107,11 @@ def upload_files():
 @admin_post.route('/upload/<filename>')
 def upload(filename):
     return send_from_directory(Config.UPLOAD_PATH, filename)
+'''
 
 
 @admin_post.route('/files')
 def files():
-    files = os.listdir(Config.UPLOAD_PATH)
+    file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
+    files = os.listdir(file_path)
     return render_template('post/index.html', files=files)
-'''

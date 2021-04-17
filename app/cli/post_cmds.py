@@ -2,6 +2,7 @@
 
 import os
 import click
+from uuid import uuid4
 
 from app.cli import post_cli
 
@@ -54,10 +55,11 @@ def list_roles():
 @click.argument('title')
 def add_post(title):
     p = Post()
-    p.set_author(id='606dd753962d3cbacd9bc81a')
+    p.page_id = str(uuid4())
+    p.set_author(id='607ae9ae5edd068a459ba9ee')
     p.weight = 1
     p.set_slug(title)
-    p.set_category(id='607925c80b4f6a5286e8b8ed')
+    p.set_category(id='607aea077c1a822a84ada8db')
     p.set_title(title)
 
     # Featured Image

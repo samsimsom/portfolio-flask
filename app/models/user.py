@@ -16,6 +16,9 @@ class Role(db.Document):
     def __repr__(self) -> str:
         return f'<Role | name: {self.name}, description: {self.description}>'
 
+    def set_name(self, name):
+        self.name = (str(name).replace(' ', '')).upper()
+
 
 class User(db.Document):
     username = db.StringField(max_length=64, required=True, unique=True)
@@ -25,9 +28,7 @@ class User(db.Document):
     role = db.ReferenceField(Role, reverse_delete_rule=db.CASCADE)
     creation_date = db.DateTimeField(default=datetime.utcnow())
 
-    meta = {'collection': 'user', 'indexes': ['username',
-                                              'email',
-                                              '-creation_date']}
+    meta = {'collection': 'user'}
 
     def __repr__(self) -> str:
         return f'<User | username: {self.username}, email: {self.email}>'

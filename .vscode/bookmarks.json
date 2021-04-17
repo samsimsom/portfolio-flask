@@ -34,7 +34,7 @@
 					"label": ""
 				},
 				{
-					"line": 36,
+					"line": 34,
 					"column": 12,
 					"label": ""
 				}
@@ -44,27 +44,27 @@
 			"path": "app/cli/post_cmds.py",
 			"bookmarks": [
 				{
-					"line": 12,
+					"line": 13,
 					"column": 33,
 					"label": ""
 				},
 				{
-					"line": 21,
+					"line": 22,
 					"column": 35,
 					"label": ""
 				},
 				{
-					"line": 28,
+					"line": 29,
 					"column": 37,
 					"label": ""
 				},
 				{
-					"line": 45,
+					"line": 46,
 					"column": 40,
 					"label": ""
 				},
 				{
-					"line": 52,
+					"line": 53,
 					"column": 33,
 					"label": ""
 				}

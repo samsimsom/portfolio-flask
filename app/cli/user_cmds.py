@@ -32,7 +32,6 @@ def add_role(name):
     try:
         r = Role()
         r.set_name(name)
-        r.set_slug(name)
         r.description = 'Default Description'
         r.save()
     except Exception as exp:
@@ -68,6 +67,7 @@ def register_user(username, email, password, role):
         u.username = username
         u.email = email
         u.set_password(password)
+        u.set_slug(username)
         u.role = Role.objects.get(name=role.upper())
         u.save()
 
