@@ -9,6 +9,8 @@ from flask import (render_template,
                    abort,
                    send_from_directory,
                    flash,
+                   make_response,
+                   jsonify,
                    request)
 from werkzeug.utils import secure_filename
 
@@ -103,15 +105,17 @@ def upload_files():
     return '', 204
 
 
-'''
-@admin_post.route('/upload/<filename>')
-def upload(filename):
-    return send_from_directory(Config.UPLOAD_PATH, filename)
-'''
-
-
-@admin_post.route('/files')
-def files():
+@admin_post.route('/upload/get_files', methods=['GET'])
+@admin_required
+def get_files():
     file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
     files = os.listdir(file_path)
-    return render_template('post/index.html', files=files)
+    return make_response(jsonify({'file_names': files,
+                                  'path': file_path}))
+
+
+@admin_post.route('/upload/<filename>')
+@admin_required
+def get_file(filename):
+    file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
+    return send_from_directory(file_path, filename)
