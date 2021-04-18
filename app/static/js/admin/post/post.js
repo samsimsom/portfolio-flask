@@ -38,12 +38,9 @@ Dropzone.options.postDropzoneContainer = {
           // console.log('checked')
           let checkBoxes = document.querySelectorAll('.form-check-input')
           checkBoxes.forEach((box) => {
-            console.log(box.disabled)
-            if (box.disabled) {
-              box.disabled = false
-            }
+            // console.log(box.disabled)
             if (!box.checked) {
-              box.disabled = true
+              console.log('Disable')
             }
           })
         }
