@@ -1,6 +1,7 @@
 console.log('--- POST ---')
 console.log(current_user)
 
+const newPostForm = document.getElementById('new-post-form')
 const filesFrame = document.getElementById('uploaded-files')
 
 // Dropzone Settings
@@ -8,6 +9,9 @@ Dropzone.options.newPostDropzone = {
   paramName: 'file',
   maxFilesize: 4,
   addRemoveLinks: true,
+  // headers: {
+  //   'X-CSRF-Token': newPostForm.csrf_token.value,
+  // },
   accept: (file, done) => {
     done()
   },
