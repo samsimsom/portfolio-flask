@@ -3,15 +3,22 @@ console.log('--- POST ---')
 
 const newPostForm = document.getElementById('new-post-form')
 const filesFrame = document.getElementById('uploaded-files')
+let fileId
 
-// Dropzone.autoDiscover = false
 // Dropzone Settings
 Dropzone.options.postDropzoneContainer = {
   paramName: 'file',
   maxFilesize: 5,
   renameFile: (file) => {
-    let newName = new Date().getTime() + '-' + file.name
-    return newName
+    let splitName = file.name.split(/\.(?=[^\.]+$)/)
+    let fileName = splitName[0].replace(/[^a-z0-9]/gi, '_').toLowerCase()
+    let extension = splitName[1].toLowerCase()
+    let id = Math.random().toString(36).substr(2, 9)
+    let date = new Date().getTime()
+    fileId = id + '_' + date
+    let newName = fileId + '_' + fileName
+    let secureName = newName + '.' + extension
+    return secureName
   },
 
   init: function () {
@@ -34,7 +41,7 @@ Dropzone.options.postDropzoneContainer = {
 
 function addImagesToDOM(data) {
   let html = `
-      <div class="border rounded p-1">
+      <div class="border rounded p-1" id="${fileId}">
       <div class="d-flex flex-row">
         <div class="d-flex flex-column">
           <div class="p-1 bd-highlight">

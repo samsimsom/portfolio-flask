@@ -87,6 +87,7 @@ def new_post():
 def upload_files():
     uploaded_file = request.files['file']
     filename = secure_filename(uploaded_file.filename)
+    # filename = uploaded_file.filename
 
     # Create username based upload folder
     file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
