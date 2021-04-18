@@ -87,6 +87,12 @@ function addImagesToDOM(data) {
   filesFrame.insertAdjacentHTML('beforebegin', html)
 }
 
+// Reload Page Event
+window.onbeforeunload = function (e) {
+  // document.cookie = 'cookiename=; expires=' + d.toGMTString() + ';'
+  console.log(e)
+}
+
 async function getUploadedFiles() {
   const url = `${window.origin}/admin/post/upload/get_files`
   const options = { method: 'GET' }
