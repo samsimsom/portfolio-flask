@@ -47,8 +47,9 @@ def too_large(e):
 @admin_post.after_request
 def create_post(response):
     if response.status_code == 200 and request.path == '/admin/post/new_post':
-        print('New Post Created!')
-    print(response)
+        # print('New Post Created!')
+        pass
+    # print(response)
     return response
 
 # @admin_post.route('/')
@@ -66,17 +67,24 @@ def new_post():
     form.category.choices = [(category.id, category.name)
                              for category in categories]
 
-    if form.validate_on_submit():
-        post = Post()
-        post.set_author(get_current_user_id())
-        post.title = form.title.data
-        post.description = form.description.data
-        post.set_slug(form.title.data)
-        post.set_category(form.category.data)
+    if request.method == 'POST':
+        print(request.get_json())
 
-        post.save()
+        return make_response(jsonify('return'))
 
-        return redirect(url_for('admin_post.new_post'))
+    # if form.validate_on_submit():
+    #     image = Image()
+    #     post = Post()
+    #     post.page_id = 'test'
+    #     post.set_author(get_current_user_id())
+    #     post.title = form.title.data
+    #     post.description = form.description.data
+    #     post.set_slug(form.title.data)
+    #     post.set_category(form.category.data)
+
+    #     post.save()
+
+    #     return redirect(url_for('admin_post.new_post'))
 
     return render_template('admin/post/new_post.html',
                            form=form)

@@ -3,7 +3,7 @@ console.log('--- POST ---')
 
 const newPostForm = document.getElementById('new-post-form')
 const filesFrame = document.getElementById('uploaded-files')
-let fileId
+const form = document.getElementById('new-post-form')
 
 // Dropzone Settings
 Dropzone.options.postDropzoneContainer = {
@@ -15,7 +15,7 @@ Dropzone.options.postDropzoneContainer = {
     let extension = splitName[1].toLowerCase()
     let id = Math.random().toString(36).substr(2, 9)
     let date = new Date().getTime()
-    fileId = id + '_' + date
+    let fileId = id + '_' + date
     let newName = fileId + '_' + fileName
     let secureName = newName + '.' + extension
     return secureName
@@ -28,9 +28,30 @@ Dropzone.options.postDropzoneContainer = {
 
     this.on('success', (file) => {
       console.log('Success! ->', file.upload.filename)
-      getUploadedFile(file.upload.filename)
-        .then((data) => addImagesToDOM(data))
-        .catch((err) => console.log(err))
+      addImagesToDOM(file.upload.filename)
+      let item = document.getElementById(
+        file.upload.filename.split(/\_(?=[^\_]+$)/)[0]
+      )
+      item.addEventListener('click', (e) => {
+        // console.log(e)
+        if (e.target.id === 'featuredImageCheck') {
+          // console.log('checked')
+          let checkBoxes = document.querySelectorAll('.form-check-input')
+          checkBoxes.forEach((box) => {
+            console.log(box.disabled)
+            if (box.disabled) {
+              box.disabled = false
+            }
+            if (!box.checked) {
+              box.disabled = true
+            }
+          })
+        }
+      })
+
+      // getUploadedFile(file.upload.filename)
+      //   .then((data) => addImagesToDOM(data))
+      //   .catch((err) => console.log(err))
     })
 
     this.on('complete', (file) => {
@@ -39,13 +60,23 @@ Dropzone.options.postDropzoneContainer = {
   },
 }
 
-function addImagesToDOM(data) {
+form.addEventListener('submit', (e) => {
+  e.preventDefault()
+
+  newPost()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err))
+})
+
+function addImagesToDOM(filename) {
   let html = `
-      <div class="border rounded p-1" id="${fileId}">
+      <div class="border rounded p-1" id="${
+        filename.split(/\_(?=[^\_]+$)/)[0]
+      }">
       <div class="d-flex flex-row">
         <div class="d-flex flex-column">
           <div class="p-1 bd-highlight">
-            <img src="${window.origin}/static/upload/samsimsom/${data.fileName}"
+            <img src="${window.origin}/static/upload/samsimsom/${filename}"
                 class="uploaded-image rounded">
           </div>
         </div>
@@ -54,7 +85,7 @@ function addImagesToDOM(data) {
           <div class="input-group input-group-sm p-1">
             <span class="input-group-text"
                   id="#">Name : &ThinSpace;</span>
-            <input type="text" class="form-control" value="${data.fileName}">
+            <input type="text" class="form-control" value="${filename}">
           </div>
 
           <div class="input-group input-group-sm p-1">
@@ -69,9 +100,9 @@ function addImagesToDOM(data) {
                 <div class="form-check form-switch">
                   <input class="form-check-input"
                         type="checkbox"
-                        id="flexSwitchCheckChecked" checked>
+                        id="featuredImageCheck">
                   <label class="form-check-label"
-                        for="flexSwitchCheckChecked">Featured Image</label>
+                        for="featuredImageCheck">Featured Image</label>
                 </div>
               </div>
               <div class="p-1 flex-fill d-grid gap-2">
@@ -111,4 +142,30 @@ async function getUploadedFile(filename) {
   const data = await responce.json()
 
   return data
+}
+
+async function newPost() {
+  let entry = {
+    name: form.title.value,
+    description: form.description.value,
+    category: form.categorySelect.value,
+  }
+
+  const url = `${window.origin}/admin/post/new_post`
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': form.csrf_token.value,
+    },
+    body: JSON.stringify(entry),
+  }
+
+  const responce = await fetch(url, options)
+  if (!responce.ok) {
+    throw new Error('NOT 2XX RESPONSE')
+  } else {
+    const data = await responce.json()
+    return data
+  }
 }

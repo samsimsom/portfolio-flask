@@ -68,6 +68,7 @@
         <form method="POST" id="new-post-form">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
+
           <div class="form-floating mb-3">
             {{ form.title(class_="form-control", id="fTitle-1") }}
             {{ form.title.label(for="fTitle-1") }}
@@ -78,8 +79,8 @@
           </div>
 
           <div class="input-group mb-3">
-            {{ form.category.label(class_="input-group-text", for="fSelect-1") }}
-            {{ form.category(class_="form-select", id="fSelect-1") }}
+            {{ form.category.label(class_="input-group-text", for="categorySelect") }}
+            {{ form.category(class_="form-select", id="categorySelect") }}
           </div>
 
           <div class="d-flex justify-content-end">
