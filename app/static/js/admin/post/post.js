@@ -84,7 +84,7 @@ function addImagesToDOM(data) {
       </div>
     </div>`
 
-  filesFrame.insertAdjacentHTML('beforebegin', html)
+  filesFrame.insertAdjacentHTML('afterbegin', html)
 }
 
 // Reload Page Event
