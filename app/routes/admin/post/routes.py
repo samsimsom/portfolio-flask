@@ -21,7 +21,7 @@ from app.utils.decorators import admin_required
 from app.utils.authentication import (get_current_user_id,
                                       get_current_user_username)
 
-from app.forms.form import PostForm, EmptyForm
+from app.forms.form import PostForm
 
 from app.models.user import User
 from app.models.post import Category, Post, Image
@@ -60,7 +60,6 @@ def create_post(response):
 @admin_required
 def new_post():
     form = PostForm()
-    empty_form = EmptyForm()
 
     # Generate Selectionbox with current Categories
     categories = Category.objects.all()
@@ -80,8 +79,7 @@ def new_post():
         return redirect(url_for('admin_post.new_post'))
 
     return render_template('admin/post/new_post.html',
-                           form=form,
-                           empty_form=empty_form)
+                           form=form)
 
 
 @admin_post.route('/upload', methods=['POST'])

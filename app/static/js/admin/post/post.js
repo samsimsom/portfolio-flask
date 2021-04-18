@@ -1,54 +1,82 @@
 console.log('--- POST ---')
-console.log(current_user)
+// console.log(current_user)
 
 const newPostForm = document.getElementById('new-post-form')
 const filesFrame = document.getElementById('uploaded-files')
 
+// Dropzone.autoDiscover = false
 // Dropzone Settings
-Dropzone.options.newPostDropzone = {
+Dropzone.options.postDropzoneContainer = {
   paramName: 'file',
-  maxFilesize: 4,
-  addRemoveLinks: true,
-  // headers: {
-  //   'X-CSRF-Token': newPostForm.csrf_token.value,
-  // },
-  accept: (file, done) => {
-    done()
-  },
+  maxFilesize: 5,
   renameFile: (file) => {
-    console.log(file.name)
+    let newName = new Date().getTime() + '-' + file.name
+    return newName
   },
-}
 
-// Dropzone Events
-Dropzone.options.newPostDropzone = {
   init: function () {
     this.on('addedfile', (file) => {
-      console.log('Added in Dropzone! ->', file.name)
+      console.log('Added in Dropzone! ->', file.upload.filename)
     })
 
     this.on('success', (file) => {
-      console.log('Success! ->', file.name)
-      getUploadedFile(file.name)
+      console.log('Success! ->', file.upload.filename)
+      getUploadedFile(file.upload.filename)
         .then((data) => addImagesToDOM(data))
         .catch((err) => console.log(err))
     })
 
-    // this.on('complete', (file) => {
-    //   this.removeFile(file)
-    // })
+    this.on('complete', (file) => {
+      this.removeFile(file)
+    })
   },
 }
 
 function addImagesToDOM(data) {
-  // data.file_names.forEach((file) => {
-  //   let html = `<img src="${window.origin}/static/upload/samsimsom/${file}">`
-  //   filesFrame.insertAdjacentHTML('beforebegin', html)
-  // })
+  let html = `
+      <div class="border rounded p-1">
+      <div class="d-flex flex-row">
+        <div class="d-flex flex-column">
+          <div class="p-1 bd-highlight">
+            <img src="${window.origin}/static/upload/samsimsom/${data.fileName}"
+                class="uploaded-image rounded">
+          </div>
+        </div>
+        <div class="d-flex flex-column flex-fill">
 
-  console.log(data)
+          <div class="input-group input-group-sm p-1">
+            <span class="input-group-text"
+                  id="#">Name : &ThinSpace;</span>
+            <input type="text" class="form-control" value="${data.fileName}">
+          </div>
 
-  let html = `<img src="${window.origin}/static/upload/samsimsom/${data.fileName}" class="uploaded-image">`
+          <div class="input-group input-group-sm p-1">
+            <span class="input-group-text"
+                  id="#">Weight :</span>
+            <input type="number" min="0" class="form-control" value="0">
+          </div>
+
+          <div class="d-flex flex-column">
+            <div class="d-flex flex-row">
+              <div class="p-1 flex-fill">
+                <div class="form-check form-switch">
+                  <input class="form-check-input"
+                        type="checkbox"
+                        id="flexSwitchCheckChecked" checked>
+                  <label class="form-check-label"
+                        for="flexSwitchCheckChecked">Featured Image</label>
+                </div>
+              </div>
+              <div class="p-1 flex-fill d-grid gap-2">
+                <button type="button" class="btn btn-dark btn-sm">Update</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>`
+
   filesFrame.insertAdjacentHTML('beforebegin', html)
 }
 

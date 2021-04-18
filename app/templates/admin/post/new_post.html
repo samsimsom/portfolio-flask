@@ -25,23 +25,23 @@
 {% block app_content %}
 <div class="container" id="post-container">
   <div class="mb-5">
-    <h1 class="display-3">New Post</h1>
+    <h1 class="display-3 mb-5">New Post</h1>
   </div>
 
   <!-- Upload Files -->
   <div class="shadow-sm mb-3 bg-body rounded-3">
     <div class="card">
-      <div class="card-header">
-        Upload
-      </div>
-
+      <div class="card-header h6">Upload</div>
       <div class="card-body">
-        <form action="{{ url_for('admin_post.upload_files') }}" 
-        class="dropzone" id="new-post-dropzone" name="newPostDropzone">
-        {{ form.hidden_tag() }}
+        <!-- Dropzone -->
+        <form action="{{ url_for('admin_post.upload_files') }}"
+              class="dropzone post-dropzone"
+              id="post-dropzone-container"
+              enctype="multipart/form-data">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         </form>
+        <!-- Dropzone  /-->
       </div>
-
     </div>
   </div>
   <!-- Upload Files /-->
@@ -49,53 +49,24 @@
   <!-- Files -->
   <div class="shadow-sm mb-3 bg-body rounded-3">
     <div class="card">
-      <div class="card-header">
-        Files
-      </div>
+      <div class="card-header h6">Files</div>
 
       <div class="card-body" id="uploaded-files">
-
-        <div class="border rounded p-1">
-          <div class="d-flex flex-row">
-            <div class="d-flex flex-column">
-              <div class="p-1 bd-highlight">
-                <img src="/static/upload/samsimsom/justinbieber.jpg" class="uploaded-image rounded">
-              </div>
-            </div>
-            <div class="d-flex flex-column flex-fill">
-              <div class="input-group input-group-sm p-1">
-                <span class="input-group-text" id="inputGroup-sizing-sm">File Name :</span>
-                <input type="text" class="form-control" aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm">
-              </div>
-              <div class="input-group input-group-sm p-1">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Weight :</span>
-                <input type="number" min="0" class="form-control" aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm">
-              </div>
-              <div class="d-flex justify-content-end p-1">
-                <button type="button" class="btn btn-dark btn-sm">Update</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <!-- Dynamic Content -->
       </div>
 
     </div>
   </div>
   <!-- Files /-->
 
-
+  <!-- Details -->
   <div class="shadow-sm mb-3 bg-body rounded-3">
     <div class="card">
-      <div class="card-header">
-        Details
-      </div>
+      <div class="card-header h6">Details</div>
       <div class="card-body">
 
         <form method="POST" id="new-post-form">
-          {{ form.hidden_tag() }}
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
           <div class="form-floating mb-3">
             {{ form.title(class_="form-control", id="fTitle-1") }}
@@ -121,12 +92,15 @@
 
     </div>
   </div>
+  <!-- Details /-->
 
 </div>
 {% endblock app_content %}
 
 {% block script_lower %}
-<script>let current_user = '{{ current_user|tojson }}';</script>
+<script>
+  let current_user = '{{ current_user|tojson }}';
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
 <script src="{{ url_for('static', filename='js/base/rich-text-editor.js') }}"></script>
 <script src="{{ url_for('static', filename='js/admin/post/post.js') }}"></script>
