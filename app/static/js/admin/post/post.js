@@ -29,22 +29,6 @@ Dropzone.options.postDropzoneContainer = {
     this.on('success', (file) => {
       console.log('Success! ->', file.upload.filename)
       addImagesToDOM(file.upload.filename)
-      let item = document.getElementById(
-        file.upload.filename.split(/\_(?=[^\_]+$)/)[0]
-      )
-      item.addEventListener('click', (e) => {
-        // console.log(e)
-        if (e.target.id === 'featuredImageCheck') {
-          // console.log('checked')
-          let checkBoxes = document.querySelectorAll('.form-check-input')
-          checkBoxes.forEach((box) => {
-            // console.log(box.disabled)
-            if (!box.checked) {
-              console.log('Disable')
-            }
-          })
-        }
-      })
 
       // getUploadedFile(file.upload.filename)
       //   .then((data) => addImagesToDOM(data))
@@ -55,6 +39,21 @@ Dropzone.options.postDropzoneContainer = {
       this.removeFile(file)
     })
   },
+}
+
+const featuredImages = () => {
+  let filename = file.upload.filename.split(/\_(?=[^\_]+$)/)[0]
+  let item = document.getElementById(filename)
+  item.addEventListener('click', (e) => {
+    if (e.target.id === 'featuredImageCheck') {
+      let checkBoxes = document.querySelectorAll('.form-check-input')
+      checkBoxes.forEach((box) => {
+        if (!box.checked) {
+          console.log('Disable')
+        }
+      })
+    }
+  })
 }
 
 form.addEventListener('submit', (e) => {
