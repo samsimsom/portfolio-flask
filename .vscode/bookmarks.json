@@ -34,18 +34,38 @@
 					"label": ""
 				},
 				{
-					"line": 27,
-					"column": 16,
-					"label": ""
-				},
-				{
 					"line": 34,
-					"column": 15,
+					"column": 12,
+					"label": ""
+				}
+			]
+		},
+		{
+			"path": "app/cli/post_cmds.py",
+			"bookmarks": [
+				{
+					"line": 13,
+					"column": 33,
 					"label": ""
 				},
 				{
-					"line": 40,
-					"column": 12,
+					"line": 22,
+					"column": 35,
+					"label": ""
+				},
+				{
+					"line": 29,
+					"column": 37,
+					"label": ""
+				},
+				{
+					"line": 46,
+					"column": 40,
+					"label": ""
+				},
+				{
+					"line": 53,
+					"column": 33,
 					"label": ""
 				}
 			]

@@ -6,8 +6,8 @@ admin_category = Blueprint('admin_category', __name__,
                            url_prefix='/admin/category')
 
 
-def import_routes():
+def load_routes():
     from app.routes.admin.category import routes
 
 
-import_routes()
+load_routes()

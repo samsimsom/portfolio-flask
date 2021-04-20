@@ -48,6 +48,11 @@ def create_app():
     from app.routes.post import post
     app.register_blueprint(post)
 
+    from app.cli import app_cli, user_cli, post_cli
+    app.register_blueprint(app_cli)
+    app.register_blueprint(user_cli)
+    app.register_blueprint(post_cli)
+
     return app
 
 

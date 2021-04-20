@@ -1,4 +1,4 @@
-#new-post-dropzone {
+.post-dropzone {
   width: 100%;
   height: 100%;
   border: 2px;
@@ -8,4 +8,8 @@
 
 #post-container {
   max-width: 640px;
+}
+
+.uploaded-image {
+  max-width: 150px;
 }
