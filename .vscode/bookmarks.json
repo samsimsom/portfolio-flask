@@ -1,0 +1,74 @@
+{
+	"files": [
+		{
+			"path": "app.py",
+			"bookmarks": [
+				{
+					"line": 26,
+					"column": 24,
+					"label": ""
+				}
+			]
+		},
+		{
+			"path": "app/forms/form.py",
+			"bookmarks": [
+				{
+					"line": 23,
+					"column": 12,
+					"label": ""
+				},
+				{
+					"line": 63,
+					"column": 12,
+					"label": ""
+				}
+			]
+		},
+		{
+			"path": "app/models/post.py",
+			"bookmarks": [
+				{
+					"line": 10,
+					"column": 10,
+					"label": ""
+				},
+				{
+					"line": 34,
+					"column": 12,
+					"label": ""
+				}
+			]
+		},
+		{
+			"path": "app/cli/post_cmds.py",
+			"bookmarks": [
+				{
+					"line": 13,
+					"column": 33,
+					"label": ""
+				},
+				{
+					"line": 22,
+					"column": 35,
+					"label": ""
+				},
+				{
+					"line": 29,
+					"column": 37,
+					"label": ""
+				},
+				{
+					"line": 46,
+					"column": 40,
+					"label": ""
+				},
+				{
+					"line": 53,
+					"column": 33,
+					"label": ""
+				}
+			]
+		}
+	]
+}
