@@ -1,15 +1,20 @@
 
-from os import environ
+import os
+from dotenv import load_dotenv
+
 from flask import Flask
 
 from app.exts.database import db
 from app.exts.csrf import csrf
 
+app_base_dir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(app_base_dir, '.env'))
+
 
 def create_app():
 
     app = Flask(__name__)
-    app.config.from_object(environ.get('APP_CONFIG'))
+    app.config.from_object(os.environ.get('APP_CONFIG'))
 
     db.init_app(app)
     csrf.init_app(app)
