@@ -30,11 +30,11 @@ class Config(object):
     UPLOAD_EXTENSIONS = ['.jpg', '.png', '.gif']
     UPLOAD_PATH = os.path.join(app_base_dir, 'app/static/upload')
 
-    # Session
-    # SESSION_COOKIE_NAME = 'SNID'
-    # SESSION_COOKIE_SECURE = True
-    # SESSION_COOKIE_HTTPONLY = True
-    # SESSION_COOKIE_SAMESITE = 'Lax'
+    Session
+    SESSION_COOKIE_NAME = 'SNID'
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
     PERMANENT_SESSION_LIFETIME = timedelta(days=7)
 
 

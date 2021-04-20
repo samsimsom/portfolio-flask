@@ -15,7 +15,7 @@ def create_app():
 
     app = Flask(__name__)
     app.config.from_object(os.environ.get('APP_CONFIG'))
-    app.session_interface = session_interface(db)
+    # app.session_interface = session_interface(db)
 
     db.init_app(app)
     csrf.init_app(app)
