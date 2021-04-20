@@ -30,7 +30,7 @@ class Config(object):
     UPLOAD_EXTENSIONS = ['.jpg', '.png', '.gif']
     UPLOAD_PATH = os.path.join(app_base_dir, 'app/static/upload')
 
-    Session
+    # Session
     SESSION_COOKIE_NAME = 'SNID'
     SESSION_COOKIE_SECURE = True
     SESSION_COOKIE_HTTPONLY = True
