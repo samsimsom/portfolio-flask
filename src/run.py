@@ -52,3 +52,7 @@ def ctp_is_user():
 @app.context_processor
 def ctp_is_admin():
     return dict(is_admin=is_admin())
+
+
+if __name__ == '__main__':
+    app.run()
