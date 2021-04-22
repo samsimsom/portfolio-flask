@@ -1,15 +1,10 @@
 
-import os
-from dotenv import load_dotenv
 
 from flask import Flask
 from config import DevelopmentConfig
 
 from app.exts.database import db, session_interface
 from app.exts.csrf import csrf
-
-app_base_dir = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(os.path.join(app_base_dir, '.env'))
 
 
 def create_app():

@@ -2,7 +2,7 @@
 
 import os
 from datetime import timedelta
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
 app_base_dir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(app_base_dir, '.env'))
