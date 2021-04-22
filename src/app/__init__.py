@@ -1,16 +1,20 @@
 
 
+import os
+from dotenv import load_dotenv, find_dotenv
+
 from flask import Flask
-from config import DevelopmentConfig
 
 from app.exts.database import db, session_interface
 from app.exts.csrf import csrf
+
+load_dotenv(find_dotenv('.env'))
 
 
 def create_app():
 
     app = Flask(__name__)
-    app.config.from_object(DevelopmentConfig)
+    app.config.from_object(os.environ.get('APP_CONFIG'))
     # app.session_interface = session_interface(db)
 
     db.init_app(app)
