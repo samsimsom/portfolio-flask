@@ -66,9 +66,8 @@ form.addEventListener('submit', (e) => {
 
 function addImagesToDOM(filename) {
   let html = `
-      <div class="border rounded p-1" id="${
-        filename.split(/\_(?=[^\_]+$)/)[0]
-      }">
+      <div class="border rounded p-1" 
+           id="${filename.split(/\_(?=[^\_]+$)/)[0]}">
       <div class="d-flex flex-row">
         <div class="d-flex flex-column">
           <div class="p-1 bd-highlight">
