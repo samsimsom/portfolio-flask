@@ -68,9 +68,9 @@ def new_post():
                              for category in categories]
 
     if request.method == 'POST':
-        print(request.get_json())
-
-        return make_response(jsonify('return'))
+        # print(request.get_json())
+        data = request.get_json()
+        return make_response(jsonify(data))
 
     # if form.validate_on_submit():
     #     image = Image()
@@ -95,7 +95,6 @@ def new_post():
 def upload_files():
     uploaded_file = request.files['file']
     filename = secure_filename(uploaded_file.filename)
-    # filename = uploaded_file.filename
 
     # Create username based upload folder
     file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
