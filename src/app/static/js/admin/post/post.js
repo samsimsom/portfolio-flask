@@ -1,11 +1,17 @@
 console.log('--- POST ---')
-// console.log(current_user)
 
+/*----------------------------------------------------------------------------*/
+// Global Variables
 const newPostForm = document.getElementById('new-post-form')
+const publishPostFormButton = document.getElementById('submit')
+const savePostFormButton = document.getElementById('save')
 const filesFrame = document.getElementById('uploaded-files')
-const form = document.getElementById('new-post-form')
 
-// Dropzone Settings
+let pageId
+/*----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------*/
+// Dropzone START
 Dropzone.options.postDropzoneContainer = {
   paramName: 'file',
   maxFilesize: 5,
@@ -13,9 +19,9 @@ Dropzone.options.postDropzoneContainer = {
     let splitName = file.name.split(/\.(?=[^\.]+$)/)
     let fileName = splitName[0].replace(/[^a-z0-9]/gi, '_').toLowerCase()
     let extension = splitName[1].toLowerCase()
-    let id = Math.random().toString(36).substr(2, 9)
+    let random = Math.random().toString(36).substr(2, 9)
     let date = new Date().getTime()
-    let fileId = id + '_' + date
+    let fileId = random + '_' + date
     let newName = fileId + '_' + fileName
     let secureName = newName + '.' + extension
     return secureName
@@ -36,29 +42,49 @@ Dropzone.options.postDropzoneContainer = {
     })
   },
 }
+/*----------------------------------------------------------------------------*/
 
-const featuredImages = () => {
-  let filename = file.upload.filename.split(/\_(?=[^\_]+$)/)[0]
-  let item = document.getElementById(filename)
-  item.addEventListener('click', (e) => {
-    if (e.target.id === 'featuredImageCheck') {
-      let checkBoxes = document.querySelectorAll('.form-check-input')
-      checkBoxes.forEach((box) => {
-        if (!box.checked) {
-          console.log('Disable')
-        }
-      })
-    }
-  })
-}
+/*----------------------------------------------------------------------------*/
+// Event Listeners START
+window.addEventListener('load', (e) => {
+  // Generate PageId
+  pageId = Math.random().toString(36).substr(2, 9) + '_' + new Date().getTime()
+  console.log(pageId)
+})
 
-form.addEventListener('submit', (e) => {
+// newPostForm.addEventListener('submit', (e) => {
+//   e.preventDefault()
+
+//   newPost()
+//     .then((data) => console.log(data))
+//     .catch((err) => console.log(err))
+// })
+
+savePostFormButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  SaveFormInLocalStorage()
+  console.log(e.target.id, 'Form Data Saved!')
+})
+
+publishPostFormButton.addEventListener('submit', (e) => {
   e.preventDefault()
 
-  newPost()
-    .then((data) => console.log(data))
-    .catch((err) => console.log(err))
+  console.log(e.target.id, 'Form Data Published!')
 })
+/*----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------*/
+// Save Form in LocalStorage
+function SaveFormInLocalStorage() {
+  let formData = {
+    title: newPostForm.title.value,
+    description: newPostForm.description.value,
+    category: newPostForm.categorySelect.value,
+  }
+
+  localStorage.setItem(pageId, JSON.stringify(formData))
+}
+/*----------------------------------------------------------------------------*/
 
 function addImagesToDOM(filename) {
   let html = `
@@ -106,12 +132,6 @@ function addImagesToDOM(filename) {
   filesFrame.insertAdjacentHTML('afterbegin', html)
 }
 
-// Reload Page Event
-window.onbeforeunload = function (e) {
-  // document.cookie = 'cookiename=; expires=' + d.toGMTString() + ';'
-  console.log(e)
-}
-
 async function getUploadedFiles() {
   const url = `${window.origin}/admin/post/upload/get_files`
   const options = { method: 'GET' }
@@ -135,9 +155,9 @@ async function getUploadedFile(filename) {
 async function newPost() {
   // gerekli bilgileri localstorage'dan alalir post eder.
   let entry = {
-    name: form.title.value,
-    description: form.description.value,
-    category: form.categorySelect.value,
+    name: newPostForm.title.value,
+    description: newPostForm.description.value,
+    category: newPostForm.categorySelect.value,
   }
 
   const url = `${window.origin}/admin/post/new_post`
@@ -145,7 +165,7 @@ async function newPost() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-CSRF-Token': form.csrf_token.value,
+      'X-CSRF-Token': newPostForm.csrf_token.value,
     },
     body: JSON.stringify(entry),
   }
