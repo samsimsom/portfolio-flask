@@ -29,10 +29,6 @@ Dropzone.options.postDropzoneContainer = {
     this.on('success', (file) => {
       console.log('Success! ->', file.upload.filename)
       addImagesToDOM(file.upload.filename)
-
-      // getUploadedFile(file.upload.filename)
-      //   .then((data) => addImagesToDOM(data))
-      //   .catch((err) => console.log(err))
     })
 
     this.on('complete', (file) => {
@@ -66,49 +62,46 @@ form.addEventListener('submit', (e) => {
 
 function addImagesToDOM(filename) {
   let html = `
-      <div class="border rounded p-1" 
-           id="${filename.split(/\_(?=[^\_]+$)/)[0]}">
-      <div class="d-flex flex-row">
-        <div class="d-flex flex-column">
-          <div class="p-1 bd-highlight">
-            <img src="${window.origin}/static/upload/samsimsom/${filename}"
-                class="uploaded-image rounded">
-          </div>
-        </div>
-        <div class="d-flex flex-column flex-fill">
-
-          <div class="input-group input-group-sm p-1">
-            <span class="input-group-text"
-                  id="#">Name : &ThinSpace;</span>
-            <input type="text" class="form-control" value="${filename}">
-          </div>
-
-          <div class="input-group input-group-sm p-1">
-            <span class="input-group-text"
-                  id="#">Weight :</span>
-            <input type="number" min="0" class="form-control" value="0">
-          </div>
-
-          <div class="d-flex flex-column">
-            <div class="d-flex flex-row">
-              <div class="p-1 flex-fill">
-                <div class="form-check form-switch">
-                  <input class="form-check-input"
-                        type="checkbox"
-                        id="featuredImageCheck">
-                  <label class="form-check-label"
-                        for="featuredImageCheck">Featured Image</label>
-                </div>
-              </div>
-              <div class="p-1 flex-fill d-grid gap-2">
-                <button type="button" class="btn btn-dark btn-sm">Update</button>
-              </div>
-            </div>
-          </div>
-
+    <div class="border rounded p-1" id="${filename.split(/\_(?=[^\_]+$)/)[0]}">
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column">
+        <div class="p-1 bd-highlight">
+          <img src="${window.origin}/static/upload/samsimsom/${filename}"
+              class="uploaded-image rounded">
         </div>
       </div>
-    </div>`
+      <div class="d-flex flex-column flex-fill">
+
+        <div class="input-group input-group-sm p-1">
+          <span class="input-group-text" id="#">Name : &ThinSpace;</span>
+          <input type="text" class="form-control" value="${filename}">
+        </div>
+
+        <div class="input-group input-group-sm p-1">
+          <span class="input-group-text" id="#">Weight :</span>
+          <input type="number" min="0" class="form-control" value="0">
+        </div>
+
+        <div class="d-flex flex-column">
+          <div class="d-flex flex-row">
+            <div class="p-1 flex-fill">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="featuredImageCheck">
+                <label class="form-check-label" for="featuredImageCheck">Featured Image</label>
+              </div>
+            </div>
+            <div class="p-1 flex-fill d-grid gap-2">
+              <button type="button" class="delete btn btn-danger btn-sm">Delete</button>
+            </div>
+            <div class="p-1 flex-fill d-grid gap-2">
+              <button type="button" class="update btn btn-dark btn-sm">Update</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>`
 
   filesFrame.insertAdjacentHTML('afterbegin', html)
 }
@@ -140,6 +133,7 @@ async function getUploadedFile(filename) {
 }
 
 async function newPost() {
+  // gerekli bilgileri localstorage'dan alalir post eder.
   let entry = {
     name: form.title.value,
     description: form.description.value,

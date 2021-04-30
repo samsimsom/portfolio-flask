@@ -35,7 +35,6 @@ class Image(db.EmbeddedDocument):
 # POST MODEL
 class Post(db.Document):
 
-    page_id = db.StringField()
     author = db.ReferenceField(User, reverse_delete_rule=db.CASCADE)
     creation_date = db.DateTimeField(default=datetime.utcnow())
     published = db.BooleanField(default=False)

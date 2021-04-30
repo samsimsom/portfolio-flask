@@ -52,7 +52,6 @@ def create_post(response):
         # image.path = '/empty/path'
 
         # post = Post()
-        # post.page_id = 'test'
         # post.set_author(get_current_user_id())
         # post.title = 'empty'
         # post.description = 'empty'
@@ -87,17 +86,7 @@ def new_post():
         return make_response(jsonify(data))
 
     # if form.validate_on_submit():
-    #     image = Image()
-    #     post = Post()
-    #     post.page_id = 'test'
-    #     post.set_author(get_current_user_id())
-    #     post.title = form.title.data
-    #     post.description = form.description.data
-    #     post.set_slug(form.title.data)
-    #     post.set_category(form.category.data)
-
-    #     post.save()
-
+        # pass
     #     return redirect(url_for('admin_post.new_post'))
 
     return render_template('admin/post/new_post.html',
