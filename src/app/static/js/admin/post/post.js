@@ -49,7 +49,7 @@ Dropzone.options.postDropzoneContainer = {
 window.addEventListener('load', (e) => {
   // Generate PageId
   pageId = Math.random().toString(36).substr(2, 9) + '_' + new Date().getTime()
-  console.log(pageId)
+  // console.log(pageId)
 })
 
 // newPostForm.addEventListener('submit', (e) => {
@@ -76,6 +76,7 @@ publishPostFormButton.addEventListener('submit', (e) => {
 /*----------------------------------------------------------------------------*/
 // Save Form in LocalStorage
 function SaveFormInLocalStorage() {
+
   let formData = {
     title: newPostForm.title.value,
     description: newPostForm.description.value,
