@@ -49,7 +49,7 @@ Dropzone.options.postDropzoneContainer = {
 window.addEventListener('load', (e) => {
   // Generate PageId
   pageId = Math.random().toString(36).substr(2, 9) + '_' + new Date().getTime()
-  // console.log(pageId)
+  console.log(pageId)
 })
 
 // newPostForm.addEventListener('submit', (e) => {
@@ -68,7 +68,6 @@ savePostFormButton.addEventListener('click', (e) => {
 
 publishPostFormButton.addEventListener('submit', (e) => {
   e.preventDefault()
-
   console.log(e.target.id, 'Form Data Published!')
 })
 /*----------------------------------------------------------------------------*/
@@ -76,6 +75,12 @@ publishPostFormButton.addEventListener('submit', (e) => {
 /*----------------------------------------------------------------------------*/
 // Save Form in LocalStorage
 function SaveFormInLocalStorage() {
+  let fileData = {
+    name: 'File Name',
+    path: 'File Path',
+    weight: 'File Weight',
+    is_featured_image: false,
+  }
 
   let formData = {
     title: newPostForm.title.value,
