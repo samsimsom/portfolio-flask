@@ -19,9 +19,9 @@ Dropzone.options.postDropzoneContainer = {
     let splitName = file.name.split(/\.(?=[^\.]+$)/)
     let fileName = splitName[0].replace(/[^a-z0-9]/gi, '_').toLowerCase()
     let extension = splitName[1].toLowerCase()
-    let random = Math.random().toString(36).substr(2, 9)
-    let date = new Date().getTime()
-    let fileId = random + '_' + date
+    let fileId = `${Math.random()
+      .toString(36)
+      .substr(2, 9)}_${new Date().getTime()}`
     let newName = fileId + '_' + fileName
     let secureName = newName + '.' + extension
     return secureName
@@ -29,7 +29,7 @@ Dropzone.options.postDropzoneContainer = {
 
   init: function () {
     this.on('addedfile', (file) => {
-      console.log('Added in Dropzone! ->', file.upload.filename)
+      console.log('Added! ->', file.upload.filename)
     })
 
     this.on('success', (file) => {
@@ -39,6 +39,7 @@ Dropzone.options.postDropzoneContainer = {
 
     this.on('complete', (file) => {
       this.removeFile(file)
+      console.log('Removed! ->', file.upload.filename)
     })
   },
 }
@@ -49,7 +50,7 @@ Dropzone.options.postDropzoneContainer = {
 window.addEventListener('load', (e) => {
   // Generate PageId
   pageId = Math.random().toString(36).substr(2, 9) + '_' + new Date().getTime()
-  console.log(pageId)
+  console.log('Page ID ->', pageId)
 })
 
 // newPostForm.addEventListener('submit', (e) => {
