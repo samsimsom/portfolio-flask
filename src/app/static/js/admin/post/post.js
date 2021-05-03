@@ -87,6 +87,7 @@ function SaveFormInLocalStorage() {
     title: newPostForm.title.value,
     description: newPostForm.description.value,
     category: newPostForm.categorySelect.value,
+    file: [fileData],
   }
 
   localStorage.setItem(pageId, JSON.stringify(formData))
