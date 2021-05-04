@@ -8,6 +8,7 @@ const savePostFormButton = document.getElementById('save')
 const filesFrame = document.getElementById('uploaded-files')
 
 let pageId
+let filesData = []
 /*----------------------------------------------------------------------------*/
 
 /*----------------------------------------------------------------------------*/
@@ -34,13 +35,15 @@ Dropzone.options.postDropzoneContainer = {
 
     this.on('success', (file) => {
       console.log('Success! ->', file.upload.filename)
+      let fileId = { id: file.upload.filename.split(/\_(?=[^\_]+$)/)[0] }
+      filesData.push(fileId)
       addImagesToDOM(file.upload.filename)
     })
 
-    this.on('complete', (file) => {
-      this.removeFile(file)
-      console.log('Removed! ->', file.upload.filename)
-    })
+    // this.on('complete', (file) => {
+    //   this.removeFile(file)
+    //   console.log('Removed! ->', file.upload.filename)
+    // })
   },
 }
 /*----------------------------------------------------------------------------*/
@@ -95,8 +98,10 @@ function SaveFormInLocalStorage() {
 /*----------------------------------------------------------------------------*/
 
 function addImagesToDOM(filename) {
+  let id = filename.split(/\_(?=[^\_]+$)/)[0]
+
   let html = `
-    <div class="border rounded p-1" id="${filename.split(/\_(?=[^\_]+$)/)[0]}">
+    <div class="border rounded p-1" id="${id}_card">
     <div class="d-flex flex-row">
       <div class="d-flex flex-column">
         <div class="p-1 bd-highlight">
@@ -108,19 +113,19 @@ function addImagesToDOM(filename) {
 
         <div class="input-group input-group-sm p-1">
           <span class="input-group-text" id="#">Name : &ThinSpace;</span>
-          <input type="text" class="form-control" value="${filename}">
+          <input type="text" class="form-control" id="${id}_name" value="${filename}">
         </div>
 
         <div class="input-group input-group-sm p-1">
           <span class="input-group-text" id="#">Weight :</span>
-          <input type="number" min="0" class="form-control" value="0">
+          <input type="number" min="0" class="form-control" id="${id}_weight" value="0">
         </div>
 
         <div class="d-flex flex-column">
           <div class="d-flex flex-row">
             <div class="p-1 flex-fill">
               <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="featuredImageCheck">
+                <input class="form-check-input" type="checkbox" id="${id}_feature">
                 <label class="form-check-label" for="featuredImageCheck">Featured Image</label>
               </div>
             </div>
