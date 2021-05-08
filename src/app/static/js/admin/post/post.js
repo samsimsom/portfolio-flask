@@ -1,31 +1,15 @@
-console.log('--- POST ---')
-
 /*----------------------------------------------------------------------------*/
 // Global Variables
 const newPostForm = document.getElementById('new-post-form')
-const publishPostFormButton = document.getElementById('submit')
-const savePostFormButton = document.getElementById('save')
-const filesFrame = document.getElementById('uploaded-files')
-
-let pageId
-let filesData = []
-/*----------------------------------------------------------------------------*/
+const uploadedFilesFrame = document.getElementById('uploaded-files')
 
 /*----------------------------------------------------------------------------*/
-// Dropzone START
+// Dropzone
 Dropzone.options.postDropzoneContainer = {
   paramName: 'file',
   maxFilesize: 5,
   renameFile: (file) => {
-    let splitName = file.name.split(/\.(?=[^\.]+$)/)
-    let fileName = splitName[0].replace(/[^a-z0-9]/gi, '_').toLowerCase()
-    let extension = splitName[1].toLowerCase()
-    let fileId = `${Math.random()
-      .toString(36)
-      .substr(2, 9)}_${new Date().getTime()}`
-    let newName = fileId + '_' + fileName
-    let secureName = newName + '.' + extension
-    return secureName
+    return renameUploadingFile(file)
   },
 
   init: function () {
@@ -35,71 +19,55 @@ Dropzone.options.postDropzoneContainer = {
 
     this.on('success', (file) => {
       console.log('Success! ->', file.upload.filename)
-      let fileId = { id: file.upload.filename.split(/\_(?=[^\_]+$)/)[0] }
-      filesData.push(fileId)
-      addImagesToDOM(file.upload.filename)
+      generateUploadedCard(file.upload.filename)
+
+      // Uploaded card added event listener
+      let card = document.getElementById(
+        `${extractFileIdFromFileName(file.upload.filename)}_card`
+      )
+      card.addEventListener('click', (e) => {
+        let radios = document.querySelectorAll('.form-check-input')
+        radios.forEach((radio) => {
+          console.log(radio.checked)
+        })
+      })
     })
 
     // this.on('complete', (file) => {
-    //   this.removeFile(file)
     //   console.log('Removed! ->', file.upload.filename)
+    //   this.removeFile(file)
     // })
   },
 }
-/*----------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------*/
-// Event Listeners START
-window.addEventListener('load', (e) => {
-  // Generate PageId
-  pageId = Math.random().toString(36).substr(2, 9) + '_' + new Date().getTime()
-  console.log('Page ID ->', pageId)
-})
-
-// newPostForm.addEventListener('submit', (e) => {
-//   e.preventDefault()
-
-//   newPost()
-//     .then((data) => console.log(data))
-//     .catch((err) => console.log(err))
-// })
-
-savePostFormButton.addEventListener('click', (e) => {
-  e.preventDefault()
-  SaveFormInLocalStorage()
-  console.log(e.target.id, 'Form Data Saved!')
-})
-
-publishPostFormButton.addEventListener('submit', (e) => {
-  e.preventDefault()
-  console.log(e.target.id, 'Form Data Published!')
-})
-/*----------------------------------------------------------------------------*/
-
-/*----------------------------------------------------------------------------*/
-// Save Form in LocalStorage
-function SaveFormInLocalStorage() {
-  let fileData = {
-    name: 'File Name',
-    path: 'File Path',
-    weight: 'File Weight',
-    is_featured_image: false,
-  }
-
-  let formData = {
-    title: newPostForm.title.value,
-    description: newPostForm.description.value,
-    category: newPostForm.categorySelect.value,
-    file: [fileData],
-  }
-
-  localStorage.setItem(pageId, JSON.stringify(formData))
+// Rename Uploading File with secure file name
+function renameUploadingFile(file) {
+  let splitName = file.name.split(/\.(?=[^\.]+$)/)
+  let fileName = splitName[0].replace(/[^a-z0-9]/gi, '_').toLowerCase()
+  let extension = splitName[1].toLowerCase()
+  let newName = `${generateRandomId()}-${fileName}`
+  return `${newName}.${extension}`
 }
+
+// Return File ID Extracted in File Name
+function extractFileIdFromFileName(filename) {
+  let id = filename.split(/\-(?=[^\-]+$)/)[0]
+  return id
+}
+
+// File Id Generator
+function generateRandomId() {
+  let randomString = Math.random().toString(36).substr(2, 9).toLowerCase()
+  let date = new Date().getTime()
+  return `${randomString}-${date}`
+}
+
 /*----------------------------------------------------------------------------*/
 
-function addImagesToDOM(filename) {
-  let id = filename.split(/\_(?=[^\_]+$)/)[0]
+/*----------------------------------------------------------------------------*/
 
+function generateUploadedCard(filename) {
+  let id = extractFileIdFromFileName(filename)
   let html = `
     <div class="border rounded p-1" id="${id}_card">
     <div class="d-flex flex-row">
@@ -130,10 +98,10 @@ function addImagesToDOM(filename) {
               </div>
             </div>
             <div class="p-1 flex-fill d-grid gap-2">
-              <button type="button" class="delete btn btn-danger btn-sm">Delete</button>
+              <button type="button" class="btn btn-danger btn-sm" id="${id}_delete">Delete</button>
             </div>
             <div class="p-1 flex-fill d-grid gap-2">
-              <button type="button" class="update btn btn-dark btn-sm">Update</button>
+              <button type="button" class="btn btn-dark btn-sm" id="${id}_update">Update</button>
             </div>
           </div>
         </div>
@@ -142,52 +110,10 @@ function addImagesToDOM(filename) {
     </div>
   </div>`
 
-  filesFrame.insertAdjacentHTML('afterbegin', html)
+  uploadedFilesFrame.insertAdjacentHTML('afterbegin', html)
 }
+/*----------------------------------------------------------------------------*/
 
-async function getUploadedFiles() {
-  const url = `${window.origin}/admin/post/upload/get_files`
-  const options = { method: 'GET' }
+/*----------------------------------------------------------------------------*/
 
-  const responce = await fetch(url, options)
-  const data = await responce.json()
-
-  return data
-}
-
-async function getUploadedFile(filename) {
-  const url = `${window.origin}/admin/post/upload/get_file/${filename}`
-  const options = { method: 'GET' }
-
-  const responce = await fetch(url, options)
-  const data = await responce.json()
-
-  return data
-}
-
-async function newPost() {
-  // gerekli bilgileri localstorage'dan alalir post eder.
-  let entry = {
-    name: newPostForm.title.value,
-    description: newPostForm.description.value,
-    category: newPostForm.categorySelect.value,
-  }
-
-  const url = `${window.origin}/admin/post/new_post`
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': newPostForm.csrf_token.value,
-    },
-    body: JSON.stringify(entry),
-  }
-
-  const responce = await fetch(url, options)
-  if (!responce.ok) {
-    throw new Error('NOT 2XX RESPONSE')
-  } else {
-    const data = await responce.json()
-    return data
-  }
-}
+/*----------------------------------------------------------------------------*/
