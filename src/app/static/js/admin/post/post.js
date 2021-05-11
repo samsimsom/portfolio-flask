@@ -23,13 +23,10 @@ Dropzone.options.postDropzoneContainer = {
 
       // Uploaded card added event listener
       let card = document.getElementById(
-        `${extractFileIdFromFileName(file.upload.filename)}_card`
+        `${getIdFromFileName(file.upload.filename)}_card`
       )
       card.addEventListener('click', (e) => {
-        let radios = document.querySelectorAll('.form-check-input')
-        radios.forEach((radio) => {
-          console.log(radio.checked)
-        })
+        cardEvent(e)
       })
     })
 
@@ -50,7 +47,7 @@ function renameUploadingFile(file) {
 }
 
 // Return File ID Extracted in File Name
-function extractFileIdFromFileName(filename) {
+function getIdFromFileName(filename) {
   let id = filename.split(/\-(?=[^\-]+$)/)[0]
   return id
 }
@@ -65,9 +62,9 @@ function generateRandomId() {
 /*----------------------------------------------------------------------------*/
 
 /*----------------------------------------------------------------------------*/
-
+// Uploaded card HTML
 function generateUploadedCard(filename) {
-  let id = extractFileIdFromFileName(filename)
+  let id = getIdFromFileName(filename)
   let html = `
     <div class="border rounded p-1" id="${id}_card">
     <div class="d-flex flex-row">
@@ -115,5 +112,8 @@ function generateUploadedCard(filename) {
 /*----------------------------------------------------------------------------*/
 
 /*----------------------------------------------------------------------------*/
-
+// Uploaded Card Event
+function cardEvent(e) {
+  console.log(e.target)
+}
 /*----------------------------------------------------------------------------*/
