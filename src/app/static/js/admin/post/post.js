@@ -22,9 +22,8 @@ Dropzone.options.postDropzoneContainer = {
       generateUploadedCard(file.upload.filename)
 
       // Uploaded card added event listener
-      let card = document.getElementById(
-        `${getIdFromFileName(file.upload.filename)}_card`
-      )
+      let id = getIdFromFileName(file.upload.filename)
+      let card = document.getElementById(`${id}_card`)
       card.addEventListener('click', (e) => {
         cardEvent(e)
       })
@@ -114,6 +113,26 @@ function generateUploadedCard(filename) {
 /*----------------------------------------------------------------------------*/
 // Uploaded Card Event
 function cardEvent(e) {
-  console.log(e.target)
+  let id = e.target.id
+  if (id.includes('name')) {
+    console.log(e.target.value)
+  }
+
+  if (id.includes('weight')) {
+    console.log(e.target.value)
+  }
+
+  if (id.includes('feature')) {
+    console.log(document.getElementById(id).checked)
+    console.log(e.target.value)
+  }
+
+  if (id.includes('delete')) {
+    console.log(`${id} -> DELETED!`)
+  }
+
+  if (id.includes('update')) {
+    console.log(`${id} -> UPDATE!`)
+  }
 }
 /*----------------------------------------------------------------------------*/
