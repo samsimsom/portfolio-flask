@@ -29,10 +29,10 @@ Dropzone.options.postDropzoneContainer = {
       })
     })
 
-    // this.on('complete', (file) => {
-    //   console.log('Removed! ->', file.upload.filename)
-    //   this.removeFile(file)
-    // })
+    this.on('complete', (file) => {
+      console.log('Removed! ->', file.upload.filename)
+      this.removeFile(file)
+    })
   },
 }
 
