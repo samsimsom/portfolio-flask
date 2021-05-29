@@ -124,7 +124,6 @@ function cardEvent(e) {
 
   if (id.includes('feature')) {
     console.log(document.getElementById(id).checked)
-    console.log(e.target.value)
   }
 
   if (id.includes('delete')) {
