@@ -3,6 +3,7 @@
 const newPostForm = document.getElementById('new-post-form')
 const uploadedFilesFrame = document.getElementById('uploaded-files')
 
+let uploadedFileIds = new Array()
 /*----------------------------------------------------------------------------*/
 // Dropzone
 Dropzone.options.postDropzoneContainer = {
@@ -18,6 +19,7 @@ Dropzone.options.postDropzoneContainer = {
     })
 
     this.on('success', (file) => {
+      // Generate DOM elements
       console.log('Success! ->', file.upload.filename)
       generateUploadedCard(file.upload.filename)
 
@@ -27,6 +29,9 @@ Dropzone.options.postDropzoneContainer = {
       card.addEventListener('click', (e) => {
         cardEvent(e)
       })
+
+      // store ids
+      storeIds(id)
     })
 
     this.on('complete', (file) => {
@@ -34,6 +39,11 @@ Dropzone.options.postDropzoneContainer = {
       this.removeFile(file)
     })
   },
+}
+
+// Store ids in an Array
+function storeIds(id) {
+  let totalId = uploadedFileIds.push(id)
 }
 
 // Rename Uploading File with secure file name
