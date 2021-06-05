@@ -44,26 +44,25 @@ def too_large(e):
 # Bu blueprinte yapilan her requestden sonra,
 # new_post sayfasinda ve response kodu ok ise
 # Database e bos bir dokuman olusturmasini istiyorum
-@admin_post.after_request
-def create_post(response):
-    if response.status_code == 200 and request.path == '/admin/post/new_post':
-        # image = Image()
-        # image.name = 'empty image'
-        # image.path = '/empty/path'
+# @admin_post.after_request
+# def create_post(response):
+#     if response.status_code == 200 and request.path == '/admin/post/new_post':
+#         image = Image()
+#         image.name = 'empty image'
+#         image.path = '/empty/path'
 
-        # post = Post()
-        # post.set_author(get_current_user_id())
-        # post.title = 'empty'
-        # post.description = 'empty'
-        # post.set_slug('empty')
-        # post.set_category(id='607aea077c1a822a84ada8db')
+#         post = Post()
+#         post.set_author(get_current_user_id())
+#         post.title = 'empty'
+#         post.description = 'empty'
+#         post.set_slug('empty')
+#         post.set_category(id='607aea077c1a822a84ada8db')
 
-        # post.featured_image = image
-        # post.detail_images = [image]
+#         post.featured_image = image
+#         post.detail_images = [image]
 
-        # post.save()
-        pass
-    return response
+#         post.save()
+#     return response
 
 # @admin_post.route('/')
 # def index():

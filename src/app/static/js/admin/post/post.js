@@ -1,3 +1,6 @@
+
+console.log('--- New Post ---')
+
 /*----------------------------------------------------------------------------*/
 // Global Variables
 const newPostForm = document.getElementById('new-post-form')
