@@ -1,5 +1,6 @@
 
 console.log('--- New Post ---')
+console.log(currentUser)
 
 /*----------------------------------------------------------------------------*/
 // Global Variables
