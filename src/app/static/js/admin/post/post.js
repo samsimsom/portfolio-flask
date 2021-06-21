@@ -1,6 +1,4 @@
-
 console.log('--- New Post ---')
-console.log(currentUser)
 
 /*----------------------------------------------------------------------------*/
 // Global Variables
@@ -8,6 +6,7 @@ const newPostForm = document.getElementById('new-post-form')
 const uploadedFilesFrame = document.getElementById('uploaded-files')
 
 let uploadedFileIds = new Array()
+let uploadedFilesData = new Array()
 /*----------------------------------------------------------------------------*/
 // Dropzone
 Dropzone.options.postDropzoneContainer = {
@@ -35,7 +34,8 @@ Dropzone.options.postDropzoneContainer = {
       })
 
       // store ids
-      storeIds(id)
+      // storeIds(id)
+      storeUploadedFileInformation(id, file.upload.filename, 0, false, 'testPath')
     })
 
     this.on('complete', (file) => {
@@ -48,6 +48,19 @@ Dropzone.options.postDropzoneContainer = {
 // Store ids in an Array
 function storeIds(id) {
   let totalId = uploadedFileIds.push(id)
+}
+
+// Store uploaded file information in the array
+function storeUploadedFileInformation(id, fileName, weight, feature, path) {
+  let fileInfo = {
+    id: id,
+    fileName: fileName,
+    weight: weight,
+    feature: feature,
+    path: path,
+  }
+
+  uploadedFilesData.push(fileInfo)
 }
 
 // Rename Uploading File with secure file name
@@ -68,8 +81,8 @@ function getIdFromFileName(filename) {
 // File Id Generator
 function generateRandomId() {
   let randomString = Math.random().toString(36).substr(2, 9).toLowerCase()
-  let date = new Date().getTime()
-  return `${randomString}-${date}`
+  // let date = new Date().getTime()
+  return `${randomString}`
 }
 
 /*----------------------------------------------------------------------------*/
