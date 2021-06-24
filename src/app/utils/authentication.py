@@ -1,6 +1,6 @@
 
 
-# Auth
+from datetime import datetime
 from flask import session
 
 
@@ -34,6 +34,13 @@ def get_current_user_slug():
 
 def get_current_user_role():
     return session['user']['role']
+
+
+def get_current_formated_date() -> str:
+    """
+        Current formated date: 31-12-2021
+    """
+    return str(datetime.today().strftime('%d-%m-%Y'))
 
 
 def is_in_session() -> bool:

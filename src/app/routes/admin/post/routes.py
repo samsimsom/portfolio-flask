@@ -19,7 +19,8 @@ from app.routes.admin.post import admin_post
 from config import Config
 from app.utils.decorators import admin_required
 from app.utils.authentication import (get_current_user_id,
-                                      get_current_user_username)
+                                      get_current_user_username,
+                                      get_current_formated_date)
 
 from app.forms.form import PostForm
 
@@ -75,18 +76,15 @@ def new_post():
     form = PostForm()
 
     # Generate Selectionbox with current Categories
-    categories = Category.objects.all()
-    form.category.choices = [(category.id, category.name)
-                             for category in categories]
+    if request.method == 'GET':
+        categories = Category.objects.all()
+        form.category.choices = [(category.id, category.name)
+                                 for category in categories]
 
     if request.method == 'POST':
         # print(request.get_json())
         data = request.get_json()
         return make_response(jsonify(data))
-
-    # if form.validate_on_submit():
-        # pass
-    #     return redirect(url_for('admin_post.new_post'))
 
     return render_template('admin/post/new_post.html',
                            form=form)
@@ -99,11 +97,15 @@ def upload_files():
     filename = secure_filename(uploaded_file.filename)
 
     # Create username based upload folder
-    file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
+    base_upload_foder_path = f'{Config.UPLOAD_PATH}'
+    current_user_name = get_current_user_username()
+    current_date = get_current_formated_date()
+    file_path = f'{base_upload_foder_path}/{current_user_name}-{current_date}'
+
     if not os.path.exists(file_path):
         mode = 0o770
         parent_dir = Config.UPLOAD_PATH
-        directory = get_current_user_username()
+        directory = f'{get_current_user_username()}-{get_current_formated_date()}'
         path = os.path.join(parent_dir, directory)
         os.makedirs(path, mode)
 
@@ -113,13 +115,15 @@ def upload_files():
                 file_ext != validate_image(uploaded_file.stream):
             return "Invalid image", 400
         uploaded_file.save(os.path.join(file_path, filename))
-    return '', 204
+
+    return make_response(jsonify({'File Name': file_path})), 200
 
 
 @admin_post.route('/upload/get_files', methods=['GET'])
 @admin_required
 def get_files():
-    file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
+    file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'\
+                f'-{get_current_formated_date()}'
     files = os.listdir(file_path)
     return make_response(jsonify({'file_names': files}))
 
@@ -127,7 +131,8 @@ def get_files():
 @admin_post.route('/upload/get_file/<filename>', methods=['GET'])
 @admin_required
 def get_file(filename):
-    file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
+    file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'\
+                f'-{get_current_formated_date()}'
     files = os.listdir(file_path)
 
     for file in files:
@@ -135,12 +140,3 @@ def get_file(filename):
             return make_response(jsonify({'fileName': file}))
 
     return make_response(jsonify({'file_names': files}))
-
-
-# @admin_post.route('/upload/<filename>')
-# @admin_required
-# def get_file(filename):
-#     file_path = f'{Config.UPLOAD_PATH}/{get_current_user_username()}'
-#     file = send_from_directory(file_path, filename)
-
-#     return make_response(file)

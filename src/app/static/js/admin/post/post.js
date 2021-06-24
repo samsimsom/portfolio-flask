@@ -89,6 +89,7 @@ function generateRandomId() {
 
 /*----------------------------------------------------------------------------*/
 // Uploaded card HTML
+// Buraya  python - get_file(filename) icerisinden dosya cekmesi lazim.
 function generateUploadedCard(filename) {
   let id = getIdFromFileName(filename)
   let html = `
